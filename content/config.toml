@@ -53,25 +53,13 @@ target = "publications"
 href = "/publications"
 
 [[navigation]]
-title = "Teaching"
+title = "Research"
 type = "page"
-target = "teaching"
-href = "/teaching"
+target = "Research"
+href = "/Research"
 
 [[navigation]]
-title = "Awards"
+title = "Scheme/Figure"
 type = "page"
-target = "awards"
-href = "/awards"
-
-[[navigation]]
-title = "Services"
-type = "page"
-target = "services"
-href = "/services"
-
-[[navigation]]
-title = "CV"
-type = "page"
-target = "cv"
-href = "/cv"
+target = "Scheme/Figure"
+href = "/Scheme/Figure"
