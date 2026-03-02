@@ -267,13 +267,7 @@ export default function PublicationsList({ config, publications, embedded = fals
                                                 {messages.publications.code}
                                             </a>
                                         )}
-                                    
-                                       
-                                            >
-                                                <BookOpenIcon className="h-3 w-3 mr-1.5" />
-                                                {messages.publications.bibtex}
-                                            </button>
-                                        )}
+
                                     </div>
                                  
                                     </AnimatePresence>
