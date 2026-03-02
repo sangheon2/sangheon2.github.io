@@ -63,3 +63,6 @@ title = "Scheme/Figure"
 type = "page"
 target = "Scheme/Figure"
 href = "/Scheme/Figure"
+
+[publications]
+highlight_name = "S. Jeon"
