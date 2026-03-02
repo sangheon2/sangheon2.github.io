@@ -229,9 +229,22 @@ export default function PublicationsList({ config, publications, embedded = fals
                                             </span>
                                         ))}
                                     </p>
-                                    <p className="text-sm font-medium text-neutral-800 dark:text-neutral-600 mb-3">
-                                        {pub.journal || pub.conference} {pub.year}
-                                    </p>
+                                    <p className="text-sm font-medium text-neutral-800 dark:text-neutral-600 mb-3 flex flex-wrap items-center gap-x-2 gap-y-1">
+  <span>
+    {pub.journal || pub.conference} {pub.year}
+  </span>
+
+  {(pub.url || pub.doi) && (
+    <a
+      href={pub.url ?? `https://doi.org/${pub.doi}`}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="text-accent hover:underline text-sm font-medium"
+    >
+      [link]
+    </a>
+  )}
+</p>
 
                                     {pub.description && (
                                         <p className="text-sm text-neutral-600 dark:text-neutral-500 mb-4 line-clamp-3">
