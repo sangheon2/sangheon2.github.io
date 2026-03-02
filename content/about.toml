@@ -9,9 +9,9 @@ research_interests = [
 ]
 
 [[sections]]
-id = "about"
+id = "Education"
 type = "markdown"
-source = "bio.md"
+source = "Education.md"
 title = "About"
 
 [[sections]]
