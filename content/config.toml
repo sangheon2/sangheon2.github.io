@@ -66,3 +66,8 @@ href = "/Scheme/Figure"
 
 [publications]
 highlight_name = "S. Jeon"
+
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true
