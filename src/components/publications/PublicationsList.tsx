@@ -264,7 +264,6 @@ export default function PublicationsList({
   <span className="italic font-semibold">
     {pub.journal || pub.conference}
   </span>
-
   {pub.volume && `, ${pub.volume}`}
   {pub.pages && `, ${pub.pages}`}
   {pub.year && ` (${pub.year})`}
