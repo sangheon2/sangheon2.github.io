@@ -260,21 +260,21 @@ export default function PublicationsList({
                       </span>
                     ))}
                   </p>
-<p className="text-sm font-medium text-neutral-800 dark:text-neutral-600 mb-3 flex flex-wrap items-center gap-x-2 gap-y-1">
-  <span className="italic semibold">{pub.journal || pub.conference}</span>
-  <span>
-    {pub.volume ? `, ${pub.volume}` : ''}
-    {pub.pages ? `, ${pub.pages}` : ''}
-    {' '}
-    {pub.year}
+<p className="text-sm font-medium text-neutral-800 dark:text-neutral-600 mb-3 flex flex-wrap items-center gap-x-1 gap-y-1">
+  <span className="italic font-semibold">
+    {pub.journal || pub.conference}
   </span>
+
+  {pub.volume && `, ${pub.volume}`}
+  {pub.pages && `, ${pub.pages}`}
+  {pub.year && ` (${pub.year})`}
 
   {(pub.url || pub.doi) && (
     <a
       href={pub.url ?? `https://doi.org/${pub.doi}`}
       target="_blank"
       rel="noopener noreferrer"
-      className="text-accent hover:underline text-sm font-medium"
+      className="text-accent hover:underline text-sm font-medium ml-1"
     >
       [link]
     </a>
