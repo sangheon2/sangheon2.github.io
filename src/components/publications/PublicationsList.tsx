@@ -261,7 +261,7 @@ export default function PublicationsList({
                     ))}
                   </p>
 <p className="text-sm font-medium text-neutral-800 dark:text-neutral-600 mb-3 flex flex-wrap items-center gap-x-2 gap-y-1">
-  <span className="italic">{pub.journal || pub.conference}</span>
+  <span className="italic semibold">{pub.journal || pub.conference}</span>
   <span>
     {pub.volume ? `, ${pub.volume}` : ''}
     {pub.pages ? `, ${pub.pages}` : ''}
