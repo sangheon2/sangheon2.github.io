@@ -262,7 +262,10 @@ export default function PublicationsList({
                   </p>
 
                   <p className="text-sm font-medium text-neutral-800 dark:text-neutral-600 mb-3 flex flex-wrap items-center gap-x-2 gap-y-1">
-                    {pub.journal || pub.conference} {pub.year}
+  <span className="italic font-semibold">
+    {pub.journal || pub.conference}
+  </span>
+  <span>{pub.year}</span>
                     {(pub.url || pub.doi) && (
                       <a
                         href={pub.url ?? `https://doi.org/${pub.doi}`}
