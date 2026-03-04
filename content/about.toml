@@ -1,17 +1,21 @@
-type = "Education"
-title = "Education"
+title = "About"
+type = "about"
 
 [profile]
 research_interests = [
-  "Flexible/Wearable Electronics", "Bio-Integrated Electronics", "Electrochemical biosensors", "2D material synthesis", "Multiscale Biointerfaces", "Tissue Engineering" , "Electrochemistry", "Energy Harvesting Devices"
+  "Flexible/Wearable Electronics",
+  "Bio-Integrated Electronics",
+  "Electrochemical biosensors",
+  "2D material synthesis",
+  "Multiscale Biointerfaces",
+  "Tissue Engineering",
 ]
 
 [[sections]]
 id = "Education"
 type = "markdown"
+title = "Education"
 source = "Education.md"
-title = "About"
-
 
 [[sections]]
 id = "Honors and Awards"
