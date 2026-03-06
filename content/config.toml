@@ -41,9 +41,9 @@ zh = "中文"
 en = "English"
 
 [[navigation]]
-title = "About"
+title = "Main"
 type = "page"
-target = "about"
+target = "main"
 href = "/"
 
 [[navigation]]
