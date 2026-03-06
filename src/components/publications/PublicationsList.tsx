@@ -16,13 +16,13 @@ import { useMessages } from '@/lib/i18n/useMessages';
 
 interface PublicationsListProps {
   config: PublicationPageConfig;
-  publications: Publication[];
+  Publications: Publication[];
   embedded?: boolean;
 }
 
 export default function PublicationsList({
   config,
-  publications,
+  Publications,
   embedded = false,
 }: PublicationsListProps) {
   const messages = useMessages();
@@ -32,19 +32,19 @@ export default function PublicationsList({
   const [showFilters, setShowFilters] = useState(false);
 
   const years = useMemo(() => {
-    const uniqueYears = Array.from(new Set(publications.map((p) => p.year)));
+    const uniqueYears = Array.from(new Set(Publications.map((p) => p.year)));
     return uniqueYears.sort((a, b) => b - a);
-  }, [publications]);
+  }, [Publications]);
 
   const types = useMemo(() => {
-    const uniqueTypes = Array.from(new Set(publications.map((p) => p.type)));
+    const uniqueTypes = Array.from(new Set(Publications.map((p) => p.type)));
     return uniqueTypes.sort();
-  }, [publications]);
+  }, [Publications]);
 
   const filteredPublications = useMemo(() => {
     const q = searchQuery.toLowerCase();
 
-    return publications.filter((pub) => {
+    return Publications.filter((pub) => {
       const matchesSearch =
         pub.title.toLowerCase().includes(q) ||
         pub.authors.some((author) => author.name.toLowerCase().includes(q)) ||
@@ -56,7 +56,7 @@ export default function PublicationsList({
 
       return matchesSearch && matchesYear && matchesType;
     });
-  }, [publications, searchQuery, selectedYear, selectedType]);
+  }, [Publications, searchQuery, selectedYear, selectedType]);
 
   return (
     <div>
@@ -87,7 +87,7 @@ export default function PublicationsList({
             <MagnifyingGlassIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-neutral-400" />
             <input
               type="text"
-              placeholder={messages.publications.searchPlaceholder}
+              placeholder={messages.Publications.searchPlaceholder}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="w-full pl-10 pr-4 py-2 rounded-lg border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 focus:ring-2 focus:ring-accent focus:border-transparent transition-all duration-200"
@@ -104,7 +104,7 @@ export default function PublicationsList({
             )}
           >
             <FunnelIcon className="h-5 w-5 mr-2" />
-            {messages.publications.filters}
+            {messages.Publications.filters}
           </button>
         </div>
 
@@ -114,7 +114,7 @@ export default function PublicationsList({
             <div className="space-y-2">
               <label className="text-sm font-medium text-neutral-700 dark:text-neutral-300 flex items-center">
                 <CalendarIcon className="h-4 w-4 mr-1" />{' '}
-                {messages.publications.year}
+                {messages.Publications.year}
               </label>
 
               <div className="flex flex-wrap gap-2">
@@ -151,7 +151,7 @@ export default function PublicationsList({
             <div className="space-y-2">
               <label className="text-sm font-medium text-neutral-700 dark:text-neutral-300 flex items-center">
                 <BookOpenIcon className="h-4 w-4 mr-1" />{' '}
-                {messages.publications.type}
+                {messages.Publications.type}
               </label>
 
               <div className="flex flex-wrap gap-2">
@@ -191,7 +191,7 @@ export default function PublicationsList({
       <div className="space-y-6">
         {filteredPublications.length === 0 ? (
           <div className="text-center py-12 text-neutral-500">
-            {messages.publications.noResults}
+            {messages.Publications.noResults}
           </div>
         ) : (
           filteredPublications.map((pub) => (
