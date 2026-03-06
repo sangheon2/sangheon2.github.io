@@ -49,17 +49,17 @@ href = "/"
 [[navigation]]
 title = "Publications"
 type = "page"
-target = "Publications"
+target = "publications"
 href = "/publications"
 
 [[navigation]]
 title = "Research"
 type = "page"
-target = "Research"
+target = "research"
 href = "/research"
 
 [[navigation]]
 title = "Scheme/Figure"
 type = "page"
-target = "Scheme/Figure"
+target = "scheme/Figure"
 href = "/scheme/figure"
