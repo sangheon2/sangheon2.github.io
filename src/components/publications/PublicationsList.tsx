@@ -16,13 +16,13 @@ import { useMessages } from '@/lib/i18n/useMessages';
 
 interface PublicationsListProps {
   config: PublicationPageConfig;
-  Publications: Publication[];
+  publications: Publication[];
   embedded?: boolean;
 }
 
 export default function PublicationsList({
   config,
-  Publications,
+  publications,
   embedded = false,
 }: PublicationsListProps) {
   const messages = useMessages();
@@ -34,17 +34,17 @@ export default function PublicationsList({
   const years = useMemo(() => {
     const uniqueYears = Array.from(new Set(publications.map((p) => p.year)));
     return uniqueYears.sort((a, b) => b - a);
-  }, [Publications]);
+  }, [publications]);
 
   const types = useMemo(() => {
     const uniqueTypes = Array.from(new Set(publications.map((p) => p.type)));
     return uniqueTypes.sort();
-  }, [Publications]);
+  }, [publications]);
 
   const filteredPublications = useMemo(() => {
     const q = searchQuery.toLowerCase();
 
-    return Publications.filter((pub) => {
+    return publications.filter((pub) => {
       const matchesSearch =
         pub.title.toLowerCase().includes(q) ||
         pub.authors.some((author) => author.name.toLowerCase().includes(q)) ||
@@ -56,7 +56,7 @@ export default function PublicationsList({
 
       return matchesSearch && matchesYear && matchesType;
     });
-  }, [Publications, searchQuery, selectedYear, selectedType]);
+  }, [publications, searchQuery, selectedYear, selectedType]);
 
   return (
     <div>
@@ -80,7 +80,6 @@ export default function PublicationsList({
         )}
       </div>
 
-      {/* Search and Filter Controls */}
       <div className="mb-8 space-y-4">
         <div className="flex flex-col sm:flex-row gap-4">
           <div className="relative flex-grow">
@@ -110,10 +109,9 @@ export default function PublicationsList({
 
         {showFilters && (
           <div className="p-4 bg-neutral-50 dark:bg-neutral-800/50 rounded-lg border border-neutral-200 dark:border-neutral-800 flex flex-wrap gap-6">
-            {/* Year Filter */}
             <div className="space-y-2">
               <label className="text-sm font-medium text-neutral-700 dark:text-neutral-300 flex items-center">
-                <CalendarIcon className="h-4 w-4 mr-1" />{' '}
+                <CalendarIcon className="h-4 w-4 mr-1" />
                 {messages.publications.year}
               </label>
 
@@ -147,10 +145,9 @@ export default function PublicationsList({
               </div>
             </div>
 
-            {/* Type Filter */}
             <div className="space-y-2">
               <label className="text-sm font-medium text-neutral-700 dark:text-neutral-300 flex items-center">
-                <BookOpenIcon className="h-4 w-4 mr-1" />{' '}
+                <BookOpenIcon className="h-4 w-4 mr-1" />
                 {messages.publications.type}
               </label>
 
@@ -187,14 +184,13 @@ export default function PublicationsList({
         )}
       </div>
 
-      {/* Publications Grid */}
       <div className="space-y-6">
-        {filteredpublications.length === 0 ? (
+        {filteredPublications.length === 0 ? (
           <div className="text-center py-12 text-neutral-500">
             {messages.publications.noResults}
           </div>
         ) : (
-          filteredpublications.map((pub) => (
+          filteredPublications.map((pub) => (
             <div
               key={pub.id}
               className="bg-white dark:bg-neutral-900 p-6 rounded-xl shadow-sm border border-neutral-200 dark:border-neutral-800 hover:shadow-md transition-all duration-200"
@@ -260,25 +256,26 @@ export default function PublicationsList({
                       </span>
                     ))}
                   </p>
-<p className="text-sm font-medium text-neutral-800 dark:text-neutral-600 mb-3">
-  <span className="italic font-semibold">
-    {pub.journal || pub.conference}
-  </span>
-  {pub.volume && `, ${pub.volume}`}
-  {pub.pages && `, ${pub.pages}`}
-  {pub.year && ` (${pub.year})`}
 
-  {(pub.url || pub.doi) && (
-    <a
-      href={pub.url ?? `https://doi.org/${pub.doi}`}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="text-accent hover:underline text-sm font-medium ml-1"
-    >
-      [link]
-    </a>
-  )}
-</p>
+                  <p className="text-sm font-medium text-neutral-800 dark:text-neutral-600 mb-3">
+                    <span className="italic font-semibold">
+                      {pub.journal || pub.conference}
+                    </span>
+                    {pub.volume && `, ${pub.volume}`}
+                    {pub.pages && `, ${pub.pages}`}
+                    {pub.year && ` (${pub.year})`}
+
+                    {(pub.url || pub.doi) && (
+                      <a
+                        href={pub.url ?? `https://doi.org/${pub.doi}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-accent hover:underline text-sm font-medium ml-1"
+                      >
+                        [link]
+                      </a>
+                    )}
+                  </p>
 
                   {pub.description && (
                     <p className="text-sm text-neutral-600 dark:text-neutral-500 mb-4 line-clamp-3">
