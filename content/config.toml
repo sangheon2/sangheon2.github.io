@@ -49,7 +49,7 @@ href = "/Main"
 [[navigation]]
 title = "Publications"
 type = "page"
-target = "pPublications"
+target = "Publications"
 href = "/Publications"
 
 [[navigation]]
