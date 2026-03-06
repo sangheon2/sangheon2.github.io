@@ -43,31 +43,23 @@ en = "English"
 [[navigation]]
 title = "Main"
 type = "page"
-target = "main"
-href = "/main"
+target = "Main"
+href = "/"
 
 [[navigation]]
 title = "Publications"
 type = "page"
-target = "publications"
+target = "Publications"
 href = "/publications"
 
 [[navigation]]
 title = "Research"
 type = "page"
-target = "research"
+target = "Research"
 href = "/research"
 
 [[navigation]]
 title = "Scheme/Figure"
 type = "page"
-target = "scheme/Figure"
-href = "/scheme/Figure"
-
-[publications]
-highlight_name = "S. Jeon"
-
-[markup]
-  [markup.goldmark]
-    [markup.goldmark.renderer]
-      unsafe = true
+target = "Scheme/Figure"
+href = "/scheme/figure"
