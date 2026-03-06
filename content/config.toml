@@ -41,10 +41,10 @@ zh = "中文"
 en = "English"
 
 [[navigation]]
-title = "Home"
+title = "Main"
 type = "page"
-target = "Home"
-href = "/"
+target = "main"
+href = "/main"
 
 [[navigation]]
 title = "Publications"
