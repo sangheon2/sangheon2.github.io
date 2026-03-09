@@ -10,7 +10,7 @@ export default function HomeLanding() {
       image: '/highlights/highlight1.jpg',
       summary:
         'Tissue adhesives are promising alternatives to sutures and staples, but existing adhesives mostly take the forms of glues or hydrogels with limited versatility.',
-      paperTitle: 'A 3D Printable Tissue Adhesive',
+      paper_title: 'A 3D Printable Tissue Adhesive',
       journal: 'Nature Communications',
       volume: '15',
       pages: '1215',
@@ -23,7 +23,7 @@ export default function HomeLanding() {
       image: '/highlights/highlight2.jpg',
       summary:
         'We developed a wearable electrochemical sensing platform for real-time biomarker monitoring with improved mechanical stability and signal reliability.',
-      paperTitle: 'Wearable Electrochemical Biosensor Platform',
+      paper_title: 'Wearable Electrochemical Biosensor Platform',
       journal: 'Advanced Materials',
       year: '2025',
       link: 'https://doi.org/',
@@ -34,7 +34,7 @@ export default function HomeLanding() {
       image: '/highlights/highlight3.jpg',
       summary:
         'A microneedle-integrated bioelectronic system was designed for efficient biofluid access and sensitive biomarker detection.',
-      paperTitle: 'Microneedle-Based Biointerface System',
+      paper_title: 'Microneedle-Based Biointerface System',
       journal: 'Biosensors and Bioelectronics',
       year: '2025',
       link: 'https://doi.org/',
