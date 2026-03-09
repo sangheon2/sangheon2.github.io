@@ -34,15 +34,15 @@ export default function ResearchHighlights({ items }: Props) {
       <div className="grid grid-cols-12 gap-4">
         <div className="col-span-11 border border-neutral-300 bg-[#f5f0dd]">
           <div className="grid grid-cols-12 min-h-[560px]">
-            <div className="col-span-5 relative min-h-[560px] bg-white">
-              <Image
-                src={active.image}
-                alt={active.title}
-                fill
-                className="object-contain p-6"
-                sizes="(max-width: 1024px) 100vw, 42vw"
-                priority
-              />
+            <div className="col-span-5 relative min-h-[560px] bg-white overflow-hidden">
+           <Image
+  src={active.image}
+  alt={active.title}
+  fill
+  className="object-cover"
+  sizes="(max-width: 1024px) 100vw, 42vw"
+  priority
+/>
             </div>
 
             <div className="col-span-7 p-10 flex flex-col">
