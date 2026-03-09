@@ -11,6 +11,7 @@ import type { SiteConfig } from '@/lib/config';
 import { Publication } from '@/types/publication';
 import { CardPageConfig, PublicationPageConfig, TextPageConfig } from '@/types/page';
 import { useLocaleStore } from '@/lib/stores/localeStore';
+import ResearchHighlights, { HighlightItem } from '@/components/home/ResearchHighlights';
 
 interface SectionConfig {
   id: string;
