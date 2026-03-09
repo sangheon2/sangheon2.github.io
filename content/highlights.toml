@@ -1,7 +1,7 @@
 [[items]]
 id = 1
 title = "Flexible Bioelectronic Interface"
-image = "/FPCB"
+image = "Public/FPCB.jpg"
 summary = "A flexible printed circuit board designed for wearable bioelectronic systems. The compact architecture enables seamless integration with biosensors and wireless modules for real-time physiological monitoring."
 paper_title = "Wearable Electrochemical Biosensing Platform"
 journal = "Advanced Science"
@@ -11,10 +11,10 @@ link = "https://advanced.onlinelibrary.wiley.com/doi/10.1002/advs.202509658"
 
 [[items]]
 id = 2
-title = "Wearable Biosensor Platform"
-image = "/highlights/highlight2.jpg"
-summary = "We developed a wearable electrochemical sensing platform for continuous biomarker monitoring."
-paper_title = "Wearable Biosensor Platform"
-journal = "Advanced Materials"
+title = "Portable MIP-Based POCT Biosensing System"
+image = "Public/POCT.jpg"
+summary = "A portable point-of-care testing (POCT) system integrating molecularly imprinted polymer (MIP) biosensors, disposable sensing cartridges, and smartphone-based electrochemical analysis for rapid detection of salivary periodontal inflammation biomarkers."
+paper_title =  "Wearable Electrochemical Biosensing Platform"
+journal = "Advanced Science"
 year = "2025"
-link = "https://doi.org/..."
+link = "https://advanced.onlinelibrary.wiley.com/doi/10.1002/advs.202509658"
