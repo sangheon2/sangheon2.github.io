@@ -9,7 +9,7 @@ export interface HighlightItem {
   title: string;
   image: string;
   summary: string;
-  paperTitle?: string;
+  paper_title?: string;
   journal?: string;
   volume?: string;
   pages?: string;
@@ -93,7 +93,7 @@ export default function ResearchHighlights({ items }: ResearchHighlightsProps) {
                 </p>
 
                 <p className="text-base md:text-lg text-neutral-800">
-                  {active.paperTitle}
+                  {active.paper_title}
                   {active.journal && (
                     <>
                       {', '}
