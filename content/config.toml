@@ -43,8 +43,14 @@ en = "English"
 [[navigation]]
 title = "Main"
 type = "page"
-target = "about"
+target = "home"
 href = "/"
+
+[[navigation]]
+title = "About"
+type = "page"
+target = "about"
+href = "/about"
 
 [[navigation]]
 title = "Publications"
@@ -57,9 +63,3 @@ title = "Research"
 type = "page"
 target = "research"
 href = "/research"
-
-[[navigation]]
-title = "Scheme/Figure"
-type = "page"
-target = "scheme/Figure"
-href = "/scheme/figure"
