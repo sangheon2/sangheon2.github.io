@@ -1,3 +1,7 @@
+'use client';
+
+import ResearchHighlights from './ResearchHighlights';
+
 const highlightItems = [
   {
     id: 1,
@@ -24,3 +28,7 @@ const highlightItems = [
     link: 'https://advanced.onlinelibrary.wiley.com/doi/10.1002/advs.202509658',
   },
 ];
+
+export default function HomeLanding() {
+  return <ResearchHighlights items={highlightItems} />;
+}
