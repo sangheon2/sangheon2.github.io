@@ -1,0 +1,21 @@
+[[items]]
+id = 1
+title = "A 3D Printable Tissue Adhesive"
+image = "/highlights/highlight1.jpg"
+summary = "Tissue adhesives are promising alternative to sutures and staples, but existing adhesives mostly take the forms of glues or hydrogels with limited versatility."
+paper_title = "A 3D Printable Tissue Adhesive"
+journal = "Nature Communications"
+volume = "15"
+pages = "1215"
+year = "2024"
+link = "https://doi.org/..."
+
+[[items]]
+id = 2
+title = "Wearable Biosensor Platform"
+image = "/highlights/highlight2.jpg"
+summary = "We developed a wearable electrochemical sensing platform for continuous biomarker monitoring."
+paper_title = "Wearable Biosensor Platform"
+journal = "Advanced Materials"
+year = "2025"
+link = "https://doi.org/..."
