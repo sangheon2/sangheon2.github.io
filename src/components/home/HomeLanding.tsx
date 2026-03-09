@@ -6,7 +6,7 @@ const highlightItems = [
   {
     id: 1,
     title: 'Flexible Bioelectronic Interface',
-    image: '/FPCB.jpg',
+    image: '/test 1.png',
     summary:
       'A flexible printed circuit board designed for wearable bioelectronic systems. The compact architecture enables seamless integration with biosensors and wireless modules for real-time physiological monitoring.',
     paper_title:
