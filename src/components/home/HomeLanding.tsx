@@ -53,7 +53,7 @@ const highlightItems = [
     journal: 'Advanced Materials Interfaces',
     year: '2023',
     link: 'https://advanced.onlinelibrary.wiley.com/doi/10.1002/admi.202300212',
-  }
+  },
     {
     id: 5,
     title: 'Wrinkled Graphene Nanostructure Platform',
