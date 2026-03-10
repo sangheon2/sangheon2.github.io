@@ -47,8 +47,8 @@ export default function ResearchHighlights({ items }: ResearchHighlightsProps) {
 
         <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_32px] gap-x-2 gap-y-2 items-start">
           <div className="border border-neutral-300 bg-[#f4efdc]">
-            <div className="grid grid-cols-1 lg:grid-cols-12 min-h-[520px]">
-              <div className="lg:col-span-5 relative min-h-[320px] lg:min-h-[520px] overflow-hidden">
+            <div className="grid grid-cols-1 lg:grid-cols-12 h-[520px]">
+              <div className="lg:col-span-5 relative h-[320px] lg:h-[520px] overflow-hidden">
                 <Image
                   src={active.image}
                   alt={active.title}
@@ -67,7 +67,7 @@ export default function ResearchHighlights({ items }: ResearchHighlightsProps) {
                 </button>
               </div>
 
-              <div className="lg:col-span-7 p-5 md:p-6 lg:p-7 flex flex-col relative">
+              <div className="lg:col-span-7 h-[520px] p-5 md:p-6 lg:p-7 flex flex-col relative overflow-hidden">
                 <h3 className="text-3xl md:text-4xl lg:text-4xl font-bold leading-tight text-neutral-900 mb-3">
                   {active.title}
                 </h3>
