@@ -125,8 +125,7 @@ const highlightItems = [
     title: 'Aligned Graphene Nanoribbon Fabrication Platform',
     image: 'GNR.png',
     summary:
-      'A scalable nanofabrication strategy for producing highly aligned graphene nanoribbon (GNR) arrays.
-Electrospun polymer nanowires are employed as etch-mask templates to pattern graphene through oxygen plasma etching, enabling controlled ribbon width and spatial alignment. This approach provides a simple route for large-area GNR fabrication, offering promising opportunities for graphene electronics and nanoscale sensing devices.',
+      'A scalable nanofabrication strategy for producing highly aligned graphene nanoribbon (GNR) arrays. Electrospun polymer nanowires are employed as etch-mask templates to pattern graphene through oxygen plasma etching, enabling controlled ribbon width and spatial alignment. This approach provides a simple route for large-area GNR fabrication, offering promising opportunities for graphene electronics and nanoscale sensing devices.',
     paper_title:
       'Highly aligned polymeric nanowire etch-mask lithography enabling the integration of graphene nanoribbon transistors',
     journal: 'Nanomaterials',
