@@ -47,7 +47,7 @@ export default function ResearchHighlights({ items }: ResearchHighlightsProps) {
 
         <div className="grid grid-cols-12 gap-4">
           <div className="col-span-12 lg:col-span-11 border border-neutral-300 bg-[#f4efdc]">
-            <div className="grid grid-cols-1 lg:grid-cols-12 h-[580px]">
+            <div className="grid grid-cols-1 lg:grid-cols-12 h-[520px]">
              <div className="lg:col-span-5 relative h-[520px] overflow-hidden">
                 <Image
                   src={active.image}
@@ -121,24 +121,24 @@ export default function ResearchHighlights({ items }: ResearchHighlightsProps) {
             </div>
           </div>
 
-          <div className="col-span-12 lg:col-span-1 flex lg:flex-col gap-2">
-            {items.map((item, idx) => {
-              const isActive = idx === activeIndex;
-              return (
-                <button
-                  key={item.id}
-                  onClick={() => setActiveIndex(idx)}
-                  className={`h-8 w-8 lg:h-9 lg:w-full text-sm font-medium border border-neutral-500 transition-colors ${
-                    isActive
-                      ? 'bg-neutral-800 text-white'
-                      : 'bg-neutral-500 text-white hover:bg-neutral-700'
-                  }`}
-                >
-                  {idx + 1}
-                </button>
-              );
-            })}
-          </div>
+<div className="col-span-12 lg:col-span-1 flex lg:flex-col gap-1">
+  {items.map((item, idx) => {
+    const isActive = idx === activeIndex;
+    return (
+      <button
+        key={item.id}
+        onClick={() => setActiveIndex(idx)}
+        className={`h-8 w-8 lg:h-9 lg:w-full text-xs font-medium border border-neutral-500 transition-colors ${
+          isActive
+            ? 'bg-neutral-800 text-white'
+            : 'bg-neutral-500 text-white hover:bg-neutral-700'
+        }`}
+      >
+        {idx + 1}
+      </button>
+    );
+  })}
+</div>
         </div>
       </div>
     </section>
