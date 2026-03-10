@@ -37,15 +37,15 @@ export default function ResearchHighlights({ items }: ResearchHighlightsProps) {
   };
 
   return (
-    <section className="w-full pt-1">
+    <section className="w-full pt-0">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
-        <div className="mb-3 border-b border-neutral-300 pb-2">
+        <div className="mb-3 border-b border-neutral-300 pb-1">
           <h2 className="text-2xl md:text-3xl font-light tracking-tight text-neutral-900">
             Research Highlights
           </h2>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_44px] gap-3 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_32px] gap-x-2 gap-y-2 items-start">
           <div className="border border-neutral-300 bg-[#f4efdc]">
             <div className="grid grid-cols-1 lg:grid-cols-12 min-h-[520px]">
               <div className="lg:col-span-5 relative min-h-[320px] lg:min-h-[520px] overflow-hidden">
@@ -121,14 +121,15 @@ export default function ResearchHighlights({ items }: ResearchHighlightsProps) {
             </div>
           </div>
 
-<div className="flex lg:flex-col items-start gap-1">
+<div className="flex w-8 flex-col items-center gap-1">
   {items.map((item, idx) => {
     const isActive = idx === activeIndex;
     return (
       <button
         key={item.id}
+        type="button"
         onClick={() => setActiveIndex(idx)}
-        className={`flex h-8 w-8 lg:h-8 lg:w-8 shrink-0 items-center justify-center text-xs font-medium border border-neutral-500 transition-colors ${
+        className={`h-8 w-8 min-h-8 min-w-8 max-h-8 max-w-8 shrink-0 rounded-none p-0 leading-none text-[11px] font-medium border border-neutral-500 transition-colors ${
           isActive
             ? 'bg-neutral-800 text-white'
             : 'bg-neutral-500 text-white hover:bg-neutral-700'
