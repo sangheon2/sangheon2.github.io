@@ -47,8 +47,8 @@ export default function ResearchHighlights({ items }: ResearchHighlightsProps) {
 
         <div className="grid grid-cols-12 gap-4">
           <div className="col-span-12 lg:col-span-11 border border-neutral-300 bg-[#f4efdc]">
-            <div className="grid grid-cols-1 lg:grid-cols-12 min-h-[520px]">
-              <div className="lg:col-span-5 relative min-h-[320px] lg:min-h-[520px] overflow-hidden">
+            <div className="grid grid-cols-1 lg:grid-cols-12 h-[520px]">
+             <div className="lg:col-span-5 relative h-[520px] overflow-hidden">
                 <Image
                   src={active.image}
                   alt={active.title}
