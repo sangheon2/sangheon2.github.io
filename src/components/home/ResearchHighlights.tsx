@@ -48,15 +48,21 @@ export default function ResearchHighlights({ items }: ResearchHighlightsProps) {
         <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_32px] gap-x-2 gap-y-2 items-start">
           <div className="border border-neutral-300 bg-[#f4efdc]">
             <div className="grid grid-cols-1 lg:grid-cols-12 h-[520px]">
-              <div className="lg:col-span-5 relative h-[320px] lg:h-[520px] overflow-hidden">
-                <Image
-                  src={active.image}
-                  alt={active.title}
-                  fill
-                  className="object-cover"
-                  sizes="(max-width: 1024px) 100vw, 42vw"
-                  priority
-                />
+<div className="lg:col-span-5 relative h-[320px] lg:h-[520px] overflow-hidden">
+  {items.map((item, idx) => (
+    <Image
+      key={item.id}
+      src={item.image}
+      alt={item.title}
+      fill
+      className={`object-cover transition-opacity duration-300 ${
+        idx === activeIndex ? 'opacity-100 z-10' : 'opacity-0 z-0'
+      }`}
+      sizes="(max-width: 1024px) 100vw, 42vw"
+      priority={idx === 0}
+    />
+  ))}
+</div>
 
                 <button
                   onClick={goPrev}
