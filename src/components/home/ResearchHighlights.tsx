@@ -39,7 +39,7 @@ export default function ResearchHighlights({ items }: ResearchHighlightsProps) {
   return (
     <section className="w-full pt-0">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
-        <div className="mb-3 border-b border-neutral-300 pb-1">
+        <div className="mb-2 border-b border-neutral-300 pb-1">
           <h2 className="text-2xl md:text-3xl font-light tracking-tight text-neutral-900">
             Research Highlights
           </h2>
@@ -48,25 +48,25 @@ export default function ResearchHighlights({ items }: ResearchHighlightsProps) {
         <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_32px] gap-x-2 gap-y-2 items-start">
           <div className="border border-neutral-300 bg-[#f4efdc]">
             <div className="grid grid-cols-1 lg:grid-cols-12 h-[520px]">
-<div className="lg:col-span-5 relative h-[320px] lg:h-[520px] overflow-hidden">
-  {items.map((item, idx) => (
-    <Image
-      key={item.id}
-      src={item.image}
-      alt={item.title}
-      fill
-      className={`object-cover transition-opacity duration-300 ${
-        idx === activeIndex ? 'opacity-100 z-10' : 'opacity-0 z-0'
-      }`}
-      sizes="(max-width: 1024px) 100vw, 42vw"
-      priority={idx === 0}
-    />
-  ))}
-</div>
+              <div className="lg:col-span-5 relative h-[320px] lg:h-[520px] overflow-hidden">
+                {items.map((item, idx) => (
+                  <Image
+                    key={item.id}
+                    src={item.image}
+                    alt={item.title}
+                    fill
+                    className={`object-cover transition-opacity duration-300 ${
+                      idx === activeIndex ? 'opacity-100 z-10' : 'opacity-0 z-0'
+                    }`}
+                    sizes="(max-width: 1024px) 100vw, 42vw"
+                    priority={idx === 0}
+                  />
+                ))}
 
                 <button
+                  type="button"
                   onClick={goPrev}
-                  className="absolute left-3 bottom-3 bg-neutral-700/90 hover:bg-neutral-900 text-white p-2"
+                  className="absolute left-3 bottom-3 z-20 bg-neutral-700/90 hover:bg-neutral-900 text-white p-2"
                   aria-label="Previous highlight"
                 >
                   <ChevronLeftIcon className="h-5 w-5" />
@@ -80,21 +80,22 @@ export default function ResearchHighlights({ items }: ResearchHighlightsProps) {
 
                 <div className="h-px bg-neutral-500 mb-4" />
 
-                <div className="space-y-4 text-neutral-900">
+                <div className="flex-1 overflow-y-auto pr-2 text-neutral-900">
                   <p className="text-base md:text-lg leading-relaxed">
                     {active.summary}
                   </p>
                 </div>
 
                 <button
+                  type="button"
                   onClick={goNext}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 bg-neutral-700/90 hover:bg-neutral-900 text-white p-2"
+                  className="absolute right-4 top-1/2 z-20 -translate-y-1/2 bg-neutral-700/90 hover:bg-neutral-900 text-white p-2"
                   aria-label="Next highlight"
                 >
                   <ChevronRightIcon className="h-5 w-5" />
                 </button>
 
-                <div className="mt-auto pt-6">
+                <div className="pt-4">
                   <p className="text-base font-semibold text-neutral-900 mb-1">
                     Related paper
                   </p>
@@ -127,25 +128,25 @@ export default function ResearchHighlights({ items }: ResearchHighlightsProps) {
             </div>
           </div>
 
-<div className="flex w-8 flex-col items-center gap-1">
-  {items.map((item, idx) => {
-    const isActive = idx === activeIndex;
-    return (
-      <button
-        key={item.id}
-        type="button"
-        onClick={() => setActiveIndex(idx)}
-        className={`h-8 w-8 min-h-8 min-w-8 max-h-8 max-w-8 shrink-0 rounded-none p-0 leading-none text-[11px] font-medium border border-neutral-500 transition-colors ${
-          isActive
-            ? 'bg-neutral-800 text-white'
-            : 'bg-neutral-500 text-white hover:bg-neutral-700'
-        }`}
-      >
-        {idx + 1}
-      </button>
-    );
-  })}
-</div>
+          <div className="flex w-8 flex-col items-center gap-1">
+            {items.map((item, idx) => {
+              const isActive = idx === activeIndex;
+              return (
+                <button
+                  key={item.id}
+                  type="button"
+                  onClick={() => setActiveIndex(idx)}
+                  className={`h-8 w-8 min-h-8 min-w-8 max-h-8 max-w-8 shrink-0 rounded-none p-0 leading-none text-[11px] font-medium border border-neutral-500 transition-colors ${
+                    isActive
+                      ? 'bg-neutral-800 text-white'
+                      : 'bg-neutral-500 text-white hover:bg-neutral-700'
+                  }`}
+                >
+                  {idx + 1}
+                </button>
+              );
+            })}
+          </div>
         </div>
       </div>
     </section>
