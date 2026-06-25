@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from 'react';
 import Image from 'next/image';
+
 import {
   MagnifyingGlassIcon,
   FunnelIcon,
@@ -20,12 +21,48 @@ interface PublicationsListProps {
   embedded?: boolean;
 }
 
+const journalCovers = [
+  {
+    src: '/covers/cover-small.jpg',
+    alt: 'Small journal cover',
+  },
+  {
+    src: '/covers/cover-afm-1.jpg',
+    alt: 'Advanced Functional Materials journal cover',
+  },
+  {
+    src: '/covers/cover-afm-2.jpg',
+    alt: 'Advanced Functional Materials journal cover',
+  },
+  {
+    src: '/covers/cover-afm-3.jpg',
+    alt: 'Advanced Functional Materials journal cover',
+  },
+  {
+    src: '/covers/cover-am.jpg',
+    alt: 'Advanced Materials journal cover',
+  },
+  {
+    src: '/covers/cover-afm-4.jpg',
+    alt: 'Advanced Functional Materials journal cover',
+  },
+  {
+    src: '/covers/cover-materials-horizons-1.jpg',
+    alt: 'Materials Horizons journal cover',
+  },
+  {
+    src: '/covers/cover-materials-horizons-2.jpg',
+    alt: 'Materials Horizons journal cover',
+  },
+];
+
 export default function PublicationsList({
   config,
   publications,
   embedded = false,
 }: PublicationsListProps) {
   const messages = useMessages();
+
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedYear, setSelectedYear] = useState<number | 'all'>('all');
   const [selectedType, setSelectedType] = useState<string | 'all'>('all');
@@ -47,12 +84,17 @@ export default function PublicationsList({
     return publications.filter((pub) => {
       const matchesSearch =
         pub.title.toLowerCase().includes(q) ||
-        pub.authors.some((author) => author.name.toLowerCase().includes(q)) ||
+        pub.authors.some((author) =>
+          author.name.toLowerCase().includes(q)
+        ) ||
         pub.journal?.toLowerCase().includes(q) ||
         pub.conference?.toLowerCase().includes(q);
 
-      const matchesYear = selectedYear === 'all' || pub.year === selectedYear;
-      const matchesType = selectedType === 'all' || pub.type === selectedType;
+      const matchesYear =
+        selectedYear === 'all' || pub.year === selectedYear;
+
+      const matchesType =
+        selectedType === 'all' || pub.type === selectedType;
 
       return matchesSearch && matchesYear && matchesType;
     });
@@ -64,7 +106,7 @@ export default function PublicationsList({
         <h1
           className={`${
             embedded ? 'text-2xl' : 'text-4xl'
-          } font-serif font-bold text-primary mb-4`}
+          } mb-4 font-serif font-bold text-primary`}
         >
           {config.title}
         </h1>
@@ -73,17 +115,44 @@ export default function PublicationsList({
           <p
             className={`${
               embedded ? 'text-base' : 'text-lg'
-            } text-neutral-600 dark:text-neutral-500 max-w-2xl`}
+            } max-w-2xl text-neutral-600 dark:text-neutral-500`}
           >
             {config.description}
           </p>
         )}
       </div>
 
+      {!embedded && (
+        <section className="mb-14">
+          <div className="mx-auto grid max-w-5xl grid-cols-2 gap-5 sm:grid-cols-3 lg:grid-cols-4">
+            {journalCovers.map((cover, index) => (
+              <div
+                key={index}
+                className="relative aspect-[3/4] overflow-hidden bg-white"
+              >
+                <Image
+                  src={cover.src}
+                  alt={cover.alt}
+                  fill
+                  className="object-contain"
+                  sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                  priority={index < 4}
+                />
+              </div>
+            ))}
+          </div>
+
+          <h2 className="mt-12 text-2xl font-bold tracking-tight text-primary">
+            International journal publications
+          </h2>
+        </section>
+      )}
+
       <div className="mb-8 space-y-4">
-        <div className="flex flex-col sm:flex-row gap-4">
+        <div className="flex flex-col gap-4 sm:flex-row">
           <div className="relative flex-grow">
             <MagnifyingGlassIcon className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 transform text-neutral-400" />
+
             <input
               type="text"
               placeholder={messages.publications.searchPlaceholder}
@@ -195,26 +264,26 @@ export default function PublicationsList({
               key={pub.id}
               className="rounded-xl border border-neutral-200 bg-white p-5 shadow-sm transition-all duration-200 hover:shadow-md dark:border-neutral-800 dark:bg-neutral-900"
             >
-  <div className="flex flex-col gap-6 md:flex-row md:items-stretch">
-  <div className="w-full flex-shrink-0 md:w-[320px]">
-    <div className="relative h-full min-h-[220px] overflow-hidden rounded-md border border-neutral-200 bg-neutral-100 dark:border-neutral-800 dark:bg-neutral-800">
-      {pub.preview ? (
-        <Image
-          src={`/papers/${pub.preview}`}
-          alt={pub.title}
-          fill
-          className="object-cover object-center"
-          sizes="(max-width: 768px) 100vw, 320px"
-        />
-      ) : (
-        <div className="flex h-full w-full items-center justify-center text-xs text-neutral-400">
-          No image
-        </div>
-      )}
-    </div>
-  </div>
+              <div className="flex flex-col gap-6 md:flex-row md:items-stretch">
+                <div className="w-full flex-shrink-0 md:w-[320px]">
+                  <div className="relative h-full min-h-[220px] overflow-hidden rounded-md border border-neutral-200 bg-neutral-100 dark:border-neutral-800 dark:bg-neutral-800">
+                    {pub.preview ? (
+                      <Image
+                        src={`/papers/${pub.preview}`}
+                        alt={pub.title}
+                        fill
+                        className="object-cover object-center"
+                        sizes="(max-width: 768px) 100vw, 320px"
+                      />
+                    ) : (
+                      <div className="flex h-full w-full items-center justify-center text-xs text-neutral-400">
+                        No image
+                      </div>
+                    )}
+                  </div>
+                </div>
 
-  <div className="flex flex-1 flex-col justify-center">
+                <div className="flex flex-1 flex-col justify-center">
                   <div className="mb-2 text-sm font-medium text-neutral-500">
                     {filteredPublications.length - index}.
                   </div>
@@ -222,7 +291,7 @@ export default function PublicationsList({
                   <h3
                     className={`${
                       embedded ? 'text-lg' : 'text-xl'
-                    } mb-2 leading-tight text-primary font-semibold`}
+                    } mb-2 font-semibold leading-tight text-primary`}
                   >
                     {pub.title}
                   </h3>
@@ -266,37 +335,45 @@ export default function PublicationsList({
                   </p>
 
                   <p className="mb-3 text-sm font-medium text-neutral-800 dark:text-neutral-300">
-                    <span className="italic font-semibold">
+                    <span className="font-semibold italic">
                       {pub.journal || pub.conference}
                     </span>
+
                     {pub.volume && `, ${pub.volume}`}
                     {pub.pages && `, ${pub.pages}`}
                     {pub.year && ` (${pub.year})`}
+
                     {(pub.url || pub.doi) && (
-                      <a
-                        href={pub.url ?? `https://doi.org/${pub.doi}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="ml-1 text-sm font-medium text-accent hover:underline"
-                      >
-                        [link]
-                      </a>
+                      <>
+                        {' '}
+                        <a
+                          href={
+                            pub.url ||
+                            `https://doi.org/${pub.doi}`
+                          }
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-accent hover:underline"
+                        >
+                          [link]
+                        </a>
+                      </>
                     )}
                   </p>
 
                   {pub.description && (
-                    <p className="mb-4 line-clamp-3 text-sm text-neutral-600 dark:text-neutral-500">
+                    <p className="mb-3 text-sm leading-relaxed text-neutral-600 dark:text-neutral-400">
                       {pub.description}
                     </p>
                   )}
 
-                  <div className="mt-auto flex flex-wrap gap-2">
+                  <div className="flex flex-wrap gap-2">
                     {pub.doi && (
                       <a
                         href={`https://doi.org/${pub.doi}`}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center rounded-md bg-neutral-100 px-3 py-1 text-xs font-medium text-neutral-700 transition-colors hover:bg-accent hover:text-white dark:bg-neutral-800 dark:text-neutral-300"
+                        className="rounded-full bg-neutral-100 px-3 py-1 text-xs text-neutral-700 transition-colors hover:bg-neutral-200 dark:bg-neutral-800 dark:text-neutral-300 dark:hover:bg-neutral-700"
                       >
                         DOI
                       </a>
@@ -307,7 +384,7 @@ export default function PublicationsList({
                         href={pub.code}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center rounded-md bg-neutral-100 px-3 py-1 text-xs font-medium text-neutral-700 transition-colors hover:bg-accent hover:text-white dark:bg-neutral-800 dark:text-neutral-300"
+                        className="rounded-full bg-neutral-100 px-3 py-1 text-xs text-neutral-700 transition-colors hover:bg-neutral-200 dark:bg-neutral-800 dark:text-neutral-300 dark:hover:bg-neutral-700"
                       >
                         {messages.publications.code}
                       </a>
