@@ -1,213 +1,402 @@
 'use client';
 
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import Image from 'next/image';
 
-export type HighlightItem = {
-  id?: number;
-  title: string;
-  image: string;
-  summary?: string;
-  description?: string;
-  paper_title?: string;
-  journal?: string;
-  volume?: string;
-  pages?: string;
-  year?: string;
-  link?: string;
-};
+import {
+  MagnifyingGlassIcon,
+  FunnelIcon,
+  CalendarIcon,
+  BookOpenIcon,
+} from '@heroicons/react/24/outline';
 
-interface ResearchHighlightsProps {
-  items?: HighlightItem[];
+import { Publication } from '@/types/publication';
+import { PublicationPageConfig } from '@/types/page';
+import { cn } from '@/lib/utils';
+import { useMessages } from '@/lib/i18n/useMessages';
+
+interface PublicationsListProps {
+  config: PublicationPageConfig;
+  publications: Publication[];
+  embedded?: boolean;
 }
 
-const defaultHighlights: HighlightItem[] = [
+const journalCovers = [
   {
-    id: 1,
-    title: 'Functional Materials and Wearable Biosensors',
-    description:
-      'Research on functional materials, flexible devices, and wearable biosensing systems for healthcare monitoring.',
-    image: '/F0.png',
+    src: '/1.png',
+    alt: 'Journal cover 1',
   },
   {
-    id: 2,
-    title: 'Graphene-Based Biointerface',
-    description:
-      'Graphene and graphene oxide interfaces for electrochemical biosensors and bio-interfaced sensing platforms.',
-    image: '/Graphene.png',
+    src: '/2.png',
+    alt: 'Journal cover 2',
   },
   {
-    id: 3,
-    title: 'Molecularly Imprinted Polymer Biosensors',
-    description:
-      'MIP-based electrochemical biosensors for selective biomarker detection in saliva and other biofluids.',
-    image: '/IMP.png',
+    src: '/3.jpg',
+    alt: 'Journal cover 3',
   },
   {
-    id: 4,
-    title: 'Flexible Printed Circuit and Device Integration',
-    description:
-      'Integration of sensing electrodes, flexible circuits, and wireless readout systems for wearable healthcare devices.',
-    image: '/FPCB.png',
+    src: '/4.png',
+    alt: 'Journal cover 4',
   },
   {
-    id: 5,
-    title: 'Micro/Nano Structured Platforms',
-    description:
-      'Microstructured and nanostructured platforms for sensing, energy, and bio-integrated device applications.',
-    image: '/MICRO.png',
+    src: '/5.png',
+    alt: 'Journal cover 5',
+  },
+  {
+    src: '/6.png',
+    alt: 'Journal cover 6',
+  },
+  {
+    src: '/7.png',
+    alt: 'Journal cover 7',
+  },
+  {
+    src: '/8.png',
+    alt: 'Journal cover 8',
+  },
+  {
+    src: '/9.png',
+    alt: 'Journal cover 9',
   },
 ];
 
-export default function ResearchHighlights({
-  items,
-}: ResearchHighlightsProps) {
-  const highlights = items && items.length > 0 ? items : defaultHighlights;
+export default function PublicationsList({
+  config,
+  publications,
+  embedded = false,
+}: PublicationsListProps) {
+  const messages = useMessages();
 
-  const [activeIndex, setActiveIndex] = useState(0);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [selectedYear, setSelectedYear] = useState<number | 'all'>('all');
+  const [selectedType, setSelectedType] = useState<string | 'all'>('all');
+  const [showFilters, setShowFilters] = useState(false);
 
-  if (!highlights || highlights.length === 0) return null;
+  const years = useMemo(() => {
+    const uniqueYears = Array.from(new Set(publications.map((p) => p.year)));
+    return uniqueYears.sort((a, b) => b - a);
+  }, [publications]);
 
-  const active = highlights[activeIndex];
+  const types = useMemo(() => {
+    const uniqueTypes = Array.from(new Set(publications.map((p) => p.type)));
+    return uniqueTypes.sort();
+  }, [publications]);
 
-  const goPrev = () => {
-    setActiveIndex((prev) =>
-      prev === 0 ? highlights.length - 1 : prev - 1
-    );
-  };
+  const filteredPublications = useMemo(() => {
+    const q = searchQuery.toLowerCase();
 
-  const goNext = () => {
-    setActiveIndex((prev) =>
-      prev === highlights.length - 1 ? 0 : prev + 1
-    );
-  };
+    return publications.filter((pub) => {
+      const matchesSearch =
+        pub.title.toLowerCase().includes(q) ||
+        pub.authors.some((author) =>
+          author.name.toLowerCase().includes(q)
+        ) ||
+        pub.journal?.toLowerCase().includes(q) ||
+        pub.conference?.toLowerCase().includes(q);
+
+      const matchesYear =
+        selectedYear === 'all' || pub.year === selectedYear;
+
+      const matchesType =
+        selectedType === 'all' || pub.type === selectedType;
+
+      return matchesSearch && matchesYear && matchesType;
+    });
+  }, [publications, searchQuery, selectedYear, selectedType]);
 
   return (
-    <section className="w-full pt-0">
-      <div className="mx-auto max-w-7xl px-6 lg:px-8">
-        <div className="mb-2 border-b border-neutral-300 pb-1">
-          <h2 className="text-2xl font-light tracking-tight text-neutral-900 md:text-3xl dark:text-neutral-100">
-            Research Highlights
-          </h2>
-        </div>
+    <div>
+      <div className="mb-8">
+        <h1
+          className={`${
+            embedded ? 'text-2xl' : 'text-4xl'
+          } mb-4 font-serif font-bold text-primary`}
+        >
+          {config.title}
+        </h1>
 
-        <div className="grid grid-cols-1 items-start gap-x-2 gap-y-2 lg:grid-cols-[minmax(0,1fr)_32px]">
-          <div className="border border-neutral-300 bg-[#f4efdc] dark:border-neutral-800">
-            <div className="grid h-auto grid-cols-1 lg:h-[520px] lg:grid-cols-12">
-              <div className="relative h-[320px] overflow-hidden lg:col-span-5 lg:h-[520px]">
-                {highlights.map((item, idx) => (
+        {config.description && (
+          <p
+            className={`${
+              embedded ? 'text-base' : 'text-lg'
+            } max-w-2xl text-neutral-600 dark:text-neutral-500`}
+          >
+            {config.description}
+          </p>
+        )}
+      </div>
+
+      {!embedded && (
+        <section className="mb-14">
+          <div className="mx-auto grid max-w-5xl grid-cols-2 gap-5 sm:grid-cols-3 lg:grid-cols-3">
+            {journalCovers.map((cover, index) => (
+              <div key={index} className="space-y-2">
+                <div className="relative aspect-[3/4] overflow-hidden bg-white">
                   <Image
-                    key={item.id ?? idx}
-                    src={item.image}
-                    alt={item.title}
+                    src={cover.src}
+                    alt={cover.alt}
                     fill
-                    className={`object-cover transition-opacity duration-300 ${
-                      idx === activeIndex
-                        ? 'z-10 opacity-100'
-                        : 'z-0 opacity-0'
-                    }`}
-                    sizes="(max-width: 1024px) 100vw, 42vw"
-                    priority={idx === 0}
+                    className="object-contain"
+                    sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 33vw"
+                    priority={index < 3}
                   />
-                ))}
-
-                <button
-                  type="button"
-                  onClick={goPrev}
-                  className="absolute bottom-3 left-3 z-20 bg-neutral-700/90 p-2 text-white hover:bg-neutral-900"
-                  aria-label="Previous highlight"
-                >
-                  ‹
-                </button>
-              </div>
-
-              <div className="relative flex h-auto flex-col overflow-hidden p-5 md:p-6 lg:col-span-7 lg:h-[520px] lg:p-7">
-                <h3 className="mb-3 text-3xl font-bold leading-tight text-neutral-900 md:text-4xl dark:text-neutral-100">
-                  {active.title}
-                </h3>
-
-                <div className="mb-4 h-px bg-neutral-500" />
-
-                <div className="flex-1 overflow-y-auto pr-2 text-neutral-900 dark:text-neutral-100">
-                  <p className="text-base leading-relaxed md:text-lg">
-                    {active.summary || active.description}
-                  </p>
                 </div>
 
-                <button
-                  type="button"
-                  onClick={goNext}
-                  className="absolute right-4 top-1/2 z-20 -translate-y-1/2 bg-neutral-700/90 p-2 text-white hover:bg-neutral-900"
-                  aria-label="Next highlight"
+                <p
+                  className={`text-center text-[11px] font-semibold ${
+                    index === 2 || index === 4 || index === 5
+                      ? 'text-red-600'
+                      : 'text-neutral-700'
+                  }`}
                 >
-                  ›
+                  {index === 2 || index === 4 || index === 5
+                    ? 'Journal cover designed and illustrated by Sangheon Jeon'
+                    : 'Journal cover produced by a design service'}
+                </p>
+              </div>
+            ))}
+          </div>
+
+          <h2 className="mt-12 text-2xl font-bold tracking-tight text-primary">
+            International journal publications
+          </h2>
+        </section>
+      )}
+
+      <div className="mb-8 space-y-4">
+        <div className="flex flex-col gap-4 sm:flex-row">
+          <div className="relative flex-grow">
+            <MagnifyingGlassIcon className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 transform text-neutral-400" />
+
+            <input
+              type="text"
+              placeholder={messages.publications.searchPlaceholder}
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full rounded-lg border border-neutral-200 bg-white py-2 pl-10 pr-4 transition-all duration-200 focus:border-transparent focus:ring-2 focus:ring-accent dark:border-neutral-800 dark:bg-neutral-900"
+            />
+          </div>
+
+          <button
+            onClick={() => setShowFilters((v) => !v)}
+            className={cn(
+              'flex items-center justify-center rounded-lg border px-4 py-2 transition-all duration-200',
+              showFilters
+                ? 'border-accent bg-accent text-white'
+                : 'border-neutral-200 bg-white text-neutral-600 hover:border-accent hover:text-accent dark:border-neutral-800 dark:bg-neutral-900'
+            )}
+          >
+            <FunnelIcon className="mr-2 h-5 w-5" />
+            {messages.publications.filters}
+          </button>
+        </div>
+
+        {showFilters && (
+          <div className="flex flex-wrap gap-6 rounded-lg border border-neutral-200 bg-neutral-50 p-4 dark:border-neutral-800 dark:bg-neutral-800/50">
+            <div className="space-y-2">
+              <label className="flex items-center text-sm font-medium text-neutral-700 dark:text-neutral-300">
+                <CalendarIcon className="mr-1 h-4 w-4" />
+                {messages.publications.year}
+              </label>
+
+              <div className="flex flex-wrap gap-2">
+                <button
+                  onClick={() => setSelectedYear('all')}
+                  className={cn(
+                    'rounded-full px-3 py-1 text-xs transition-colors',
+                    selectedYear === 'all'
+                      ? 'bg-accent text-white'
+                      : 'bg-white text-neutral-600 hover:bg-neutral-100 dark:bg-neutral-800 dark:hover:bg-neutral-700'
+                  )}
+                >
+                  {messages.common.all}
                 </button>
 
-                {(active.paper_title ||
-                  active.journal ||
-                  active.volume ||
-                  active.pages ||
-                  active.year ||
-                  active.link) && (
-                  <div className="pt-4">
-                    <p className="mb-1 text-base font-semibold text-neutral-900 dark:text-neutral-100">
-                      Related paper
-                    </p>
-
-                    <p className="text-sm leading-relaxed text-neutral-800 md:text-base dark:text-neutral-300">
-                      {active.paper_title}
-
-                      {active.journal && (
-                        <>
-                          {active.paper_title ? ', ' : ''}
-                          <span className="italic">{active.journal}</span>
-                        </>
-                      )}
-
-                      {active.volume && ` ${active.volume}`}
-                      {active.pages && `, ${active.pages}`}
-                      {active.year && ` (${active.year})`}
-                    </p>
-
-                    {active.link && (
-                      <a
-                        href={active.link}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="mt-3 inline-block text-sm font-medium text-blue-700 hover:underline"
-                      >
-                        View paper
-                      </a>
+                {years.map((year) => (
+                  <button
+                    key={year}
+                    onClick={() => setSelectedYear(year)}
+                    className={cn(
+                      'rounded-full px-3 py-1 text-xs transition-colors',
+                      selectedYear === year
+                        ? 'bg-accent text-white'
+                        : 'bg-white text-neutral-600 hover:bg-neutral-100 dark:bg-neutral-800 dark:hover:bg-neutral-700'
                     )}
-                  </div>
-                )}
+                  >
+                    {year}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div className="space-y-2">
+              <label className="flex items-center text-sm font-medium text-neutral-700 dark:text-neutral-300">
+                <BookOpenIcon className="mr-1 h-4 w-4" />
+                {messages.publications.type}
+              </label>
+
+              <div className="flex flex-wrap gap-2">
+                <button
+                  onClick={() => setSelectedType('all')}
+                  className={cn(
+                    'rounded-full px-3 py-1 text-xs transition-colors',
+                    selectedType === 'all'
+                      ? 'bg-accent text-white'
+                      : 'bg-white text-neutral-600 hover:bg-neutral-100 dark:bg-neutral-800 dark:hover:bg-neutral-700'
+                  )}
+                >
+                  {messages.common.all}
+                </button>
+
+                {types.map((type) => (
+                  <button
+                    key={type}
+                    onClick={() => setSelectedType(type)}
+                    className={cn(
+                      'rounded-full px-3 py-1 text-xs capitalize transition-colors',
+                      selectedType === type
+                        ? 'bg-accent text-white'
+                        : 'bg-white text-neutral-600 hover:bg-neutral-100 dark:bg-neutral-800 dark:hover:bg-neutral-700'
+                    )}
+                  >
+                    {type.replace('-', ' ')}
+                  </button>
+                ))}
               </div>
             </div>
           </div>
-
-          <div className="flex w-8 flex-row items-center gap-1 lg:flex-col">
-            {highlights.map((item, idx) => {
-              const isActive = idx === activeIndex;
-
-              return (
-                <button
-                  key={item.id ?? idx}
-                  type="button"
-                  onClick={() => setActiveIndex(idx)}
-                  className={`h-8 max-h-8 min-h-8 w-8 min-w-8 max-w-8 shrink-0 rounded-none border border-neutral-500 p-0 text-[11px] font-medium leading-none transition-colors ${
-                    isActive
-                      ? 'bg-neutral-800 text-white'
-                      : 'bg-neutral-500 text-white hover:bg-neutral-700'
-                  }`}
-                  aria-label={`Go to highlight ${idx + 1}`}
-                >
-                  {idx + 1}
-                </button>
-              );
-            })}
-          </div>
-        </div>
+        )}
       </div>
-    </section>
+
+      <div className="space-y-6">
+        {filteredPublications.length === 0 ? (
+          <div className="py-12 text-center text-neutral-500">
+            {messages.publications.noResults}
+          </div>
+        ) : (
+          filteredPublications.map((pub, index) => (
+            <div
+              key={pub.id}
+              className="rounded-xl border border-neutral-200 bg-white p-5 shadow-sm transition-all duration-200 hover:shadow-md dark:border-neutral-800 dark:bg-neutral-900"
+            >
+              <div className="flex flex-col gap-6 md:flex-row md:items-stretch">
+                <div className="w-full flex-shrink-0 md:w-[320px]">
+                  <div className="relative h-full min-h-[220px] overflow-hidden rounded-md border border-neutral-200 bg-neutral-100 dark:border-neutral-800 dark:bg-neutral-800">
+                    {pub.preview ? (
+                      <Image
+                        src={`/papers/${pub.preview}`}
+                        alt={pub.title}
+                        fill
+                        className="object-cover object-center"
+                        sizes="(max-width: 768px) 100vw, 320px"
+                      />
+                    ) : (
+                      <div className="flex h-full w-full items-center justify-center text-xs text-neutral-400">
+                        No image
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                <div className="flex flex-1 flex-col justify-center">
+                  <div className="mb-2 text-sm font-medium text-neutral-500">
+                    {filteredPublications.length - index}.
+                  </div>
+
+                  <h3
+                    className={`${
+                      embedded ? 'text-lg' : 'text-xl'
+                    } mb-2 font-semibold leading-tight text-primary`}
+                  >
+                    {pub.title}
+                  </h3>
+
+                  <p
+                    className={`${
+                      embedded ? 'text-sm' : 'text-base'
+                    } mb-2 text-neutral-600 dark:text-neutral-400`}
+                  >
+                    {pub.authors.map((author, idx) => (
+                      <span key={idx}>
+                        <span
+                          className={`${author.isHighlighted ? 'font-semibold text-accent' : ''} ${
+                            author.isCoAuthor
+                              ? `underline underline-offset-4 ${
+                                  author.isHighlighted
+                                    ? 'decoration-accent'
+                                    : 'decoration-neutral-400'
+                                }`
+                              : ''
+                          }`}
+                        >
+                          {author.name}
+                        </span>
+
+                        {author.isCorresponding && (
+                          <sup
+                            className={`ml-0 ${
+                              author.isHighlighted
+                                ? 'text-accent'
+                                : 'text-neutral-600 dark:text-neutral-400'
+                            }`}
+                          >
+                            †
+                          </sup>
+                        )}
+
+                        {idx < pub.authors.length - 1 && ', '}
+                      </span>
+                    ))}
+                  </p>
+
+                  <p className="mb-3 text-sm font-medium text-neutral-800 dark:text-neutral-300">
+                    <span className="font-semibold italic">
+                      {pub.journal || pub.conference}
+                    </span>
+
+                    {pub.volume && `, ${pub.volume}`}
+                    {pub.pages && `, ${pub.pages}`}
+                    {pub.year && ` (${pub.year})`}
+
+                    {(pub.url || pub.doi) && (
+                      <>
+                        {' '}
+                        <a
+                          href={pub.url || `https://doi.org/${pub.doi}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-accent hover:underline"
+                        >
+                          [link]
+                        </a>
+                      </>
+                    )}
+                  </p>
+
+                  {pub.description && (
+                    <p className="mb-3 text-sm leading-relaxed text-neutral-600 dark:text-neutral-400">
+                      {pub.description}
+                    </p>
+                  )}
+
+                  <div className="flex flex-wrap gap-2">
+                    {pub.doi && (
+                      <a
+                        href={`https://doi.org/${pub.doi}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="rounded-full bg-neutral-100 px-3 py-1 text-xs text-neutral-700 transition-colors hover:bg-neutral-200 dark:bg-neutral-800 dark:text-neutral-300 dark:hover:bg-neutral-700"
+                      >
+                        DOI
+                      </a>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))
+        )}
+      </div>
+    </div>
   );
 }
