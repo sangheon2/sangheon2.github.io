@@ -23,36 +23,40 @@ interface PublicationsListProps {
 
 const journalCovers = [
   {
-    src: '/covers/cover-small.jpg',
-    alt: 'Small journal cover',
+    src: '/1.png',
+    alt: 'Journal cover 1',
   },
   {
-    src: '/covers/cover-afm-1.jpg',
-    alt: 'Advanced Functional Materials journal cover',
+    src: '/2.png',
+    alt: 'Journal cover 2',
   },
   {
-    src: '/covers/cover-afm-2.jpg',
-    alt: 'Advanced Functional Materials journal cover',
+    src: '/3.jpg',
+    alt: 'Journal cover 3',
   },
   {
-    src: '/covers/cover-afm-3.jpg',
-    alt: 'Advanced Functional Materials journal cover',
+    src: '/4.png',
+    alt: 'Journal cover 4',
   },
   {
-    src: '/covers/cover-am.jpg',
-    alt: 'Advanced Materials journal cover',
+    src: '/5.png',
+    alt: 'Journal cover 5',
   },
   {
-    src: '/covers/cover-afm-4.jpg',
-    alt: 'Advanced Functional Materials journal cover',
+    src: '/6.png',
+    alt: 'Journal cover 6',
   },
   {
-    src: '/covers/cover-materials-horizons-1.jpg',
-    alt: 'Materials Horizons journal cover',
+    src: '/7.png',
+    alt: 'Journal cover 7',
   },
   {
-    src: '/covers/cover-materials-horizons-2.jpg',
-    alt: 'Materials Horizons journal cover',
+    src: '/8.png',
+    alt: 'Journal cover 8',
+  },
+  {
+    src: '/9.png',
+    alt: 'Journal cover 9',
   },
 ];
 
