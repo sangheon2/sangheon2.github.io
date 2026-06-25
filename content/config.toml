@@ -15,7 +15,7 @@ avatar = "/bio2.jpg"
 
 email = "sangheon.jn@gmail.com"
 google_scholar = "https://scholar.google.co.kr/citations?user=m69NKscAAAAJ&hl=ko "
-linkedin = "www.linkedin.com/in/sangheon-jeon-2997b41a8"
+linkedin = "https://www.linkedin.com/in/sangheon-jeon-2997b41a8"
 
 [features]
 # Show a like button on the about page
