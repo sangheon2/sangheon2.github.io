@@ -144,12 +144,12 @@ export default function PublicationsList({
 
                 <p
                   className={`text-center text-[11px] font-semibold ${
-                    index === 2 || index === 4 || index === 5
+                    index === 2 || index === 4 || index === 5 index === 6
                       ? 'text-red-600'
                       : 'text-neutral-700'
                   }`}
                 >
-                  {index === 2 || index === 4 || index === 5
+                  {index === 2 || index === 4 || index === 5 index === 6
                     ? 'Journal cover designed and illustrated by Sangheon Jeon'
                     : 'Journal cover produced by a design service'}
                 </p>
