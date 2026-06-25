@@ -46,6 +46,7 @@ export default function Navigation({
     if (enableOnePageMode) {
       return item.href === '/' ? pathname === '/' : pathname === item.href;
     }
+
     return item.href === '/' ? pathname === '/' : pathname.startsWith(item.href);
   };
 
@@ -56,8 +57,8 @@ export default function Navigation({
     <Disclosure as="header" className="w-full border-b border-neutral-200 bg-white">
       {({ open }) => (
         <>
-          <div className="max-w-[1280px] mx-auto px-6 lg:px-8">
-            <div className="flex items-center justify-between h-20">
+          <div className="mx-auto max-w-[1280px] px-6 lg:px-8">
+            <div className="flex h-20 items-center justify-between">
               <Link
                 href="/"
                 className="shrink-0 text-3xl font-extrabold tracking-tight text-neutral-900"
@@ -65,7 +66,7 @@ export default function Navigation({
                 {effectiveSiteTitle}
               </Link>
 
-              <div className="hidden lg:flex items-center gap-10">
+              <div className="hidden items-center gap-10 lg:flex">
                 <nav className="flex items-center gap-8">
                   {effectiveItems.map((item) => {
                     const isActive = isItemActive(item);
@@ -76,9 +77,9 @@ export default function Navigation({
                         key={item.target}
                         href={href}
                         className={cn(
-                          'text-[15px] tracking-wide uppercase transition-colors duration-150',
+                          'text-[15px] uppercase tracking-wide transition-colors duration-150',
                           isActive
-                            ? 'text-neutral-900 font-medium'
+                            ? 'font-medium text-neutral-900'
                             : 'text-neutral-600 hover:text-neutral-900'
                         )}
                       >
@@ -87,17 +88,10 @@ export default function Navigation({
                     );
                   })}
                 </nav>
-
-                <div className="flex items-center gap-3">
-                  <LanguageToggle i18n={i18n} />
-                  <ThemeToggle />
-                </div>
               </div>
 
-              <div className="lg:hidden flex items-center gap-2">
-                <LanguageToggle i18n={i18n} />
-                <ThemeToggle />
-                <Disclosure.Button className="inline-flex items-center justify-center p-2 rounded-md text-neutral-700 hover:bg-neutral-100">
+              <div className="flex items-center gap-2 lg:hidden">
+                <Disclosure.Button className="inline-flex items-center justify-center rounded-md p-2 text-neutral-700 hover:bg-neutral-100">
                   <span className="sr-only">{messages.navigation.openMainMenu}</span>
                   {open ? (
                     <XMarkIcon className="h-6 w-6" aria-hidden="true" />
@@ -109,8 +103,8 @@ export default function Navigation({
             </div>
           </div>
 
-          <Disclosure.Panel className="lg:hidden border-t border-neutral-200 bg-white">
-            <div className="px-6 py-4 space-y-3">
+          <Disclosure.Panel className="border-t border-neutral-200 bg-white lg:hidden">
+            <div className="space-y-3 px-6 py-4">
               {effectiveItems.map((item) => {
                 const isActive = isItemActive(item);
                 const href = getItemHref(item);
@@ -123,7 +117,7 @@ export default function Navigation({
                     className={cn(
                       'block text-sm uppercase tracking-wide',
                       isActive
-                        ? 'text-neutral-900 font-medium'
+                        ? 'font-medium text-neutral-900'
                         : 'text-neutral-600 hover:text-neutral-900'
                     )}
                   >
