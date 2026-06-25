@@ -22,43 +22,18 @@ interface PublicationsListProps {
 }
 
 const journalCovers = [
-  {
-    src: '/1.png',
-    alt: 'Journal cover 1',
-  },
-  {
-    src: '/2.png',
-    alt: 'Journal cover 2',
-  },
-  {
-    src: '/3.jpg',
-    alt: 'Journal cover 3',
-  },
-  {
-    src: '/4.png',
-    alt: 'Journal cover 4',
-  },
-  {
-    src: '/5.png',
-    alt: 'Journal cover 5',
-  },
-  {
-    src: '/6.png',
-    alt: 'Journal cover 6',
-  },
-  {
-    src: '/7.png',
-    alt: 'Journal cover 7',
-  },
-  {
-    src: '/8.png',
-    alt: 'Journal cover 8',
-  },
-  {
-    src: '/9.png',
-    alt: 'Journal cover 9',
-  },
+  { src: '/1.png', alt: 'Journal cover 1' },
+  { src: '/2.png', alt: 'Journal cover 2' },
+  { src: '/3.jpg', alt: 'Journal cover 3' },
+  { src: '/4.png', alt: 'Journal cover 4' },
+  { src: '/5.png', alt: 'Journal cover 5' },
+  { src: '/6.png', alt: 'Journal cover 6' },
+  { src: '/7.png', alt: 'Journal cover 7' },
+  { src: '/8.png', alt: 'Journal cover 8' },
+  { src: '/9.png', alt: 'Journal cover 9' },
 ];
+
+const designedCoverIndexes = [2, 4, 5, 6];
 
 export default function PublicationsList({
   config,
@@ -128,33 +103,35 @@ export default function PublicationsList({
 
       {!embedded && (
         <section className="mb-14">
-          <div className="mx-auto grid max-w-5xl grid-cols-2 gap-5 sm:grid-cols-3 lg:grid-cols-3">
-            {journalCovers.map((cover, index) => (
-              <div key={index} className="space-y-2">
-                <div className="relative aspect-[3/4] overflow-hidden bg-white">
-                  <Image
-                    src={cover.src}
-                    alt={cover.alt}
-                    fill
-                    className="object-contain"
-                    sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 33vw"
-                    priority={index < 3}
-                  />
-                </div>
+          <div className="mx-auto grid max-w-5xl grid-cols-2 gap-6 sm:grid-cols-3 lg:grid-cols-3">
+            {journalCovers.map((cover, index) => {
+              const isDesignedByMe = designedCoverIndexes.includes(index);
 
-                <p
-                  className={`text-center text-[11px] font-semibold ${
-                    index === 2 || index === 4 || index === 5 index === 6
-                      ? 'text-red-600'
-                      : 'text-neutral-700'
-                  }`}
-                >
-                  {index === 2 || index === 4 || index === 5 index === 6
-                    ? 'Journal cover designed and illustrated by Sangheon Jeon'
-                    : 'Journal cover produced by a design service'}
-                </p>
-              </div>
-            ))}
+              return (
+                <div key={cover.src} className="space-y-2">
+                  <div className="relative aspect-[3/4] overflow-hidden bg-white">
+                    <Image
+                      src={cover.src}
+                      alt={cover.alt}
+                      fill
+                      className="object-contain"
+                      sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 33vw"
+                      priority={index < 3}
+                    />
+                  </div>
+
+                  <p
+                    className={`text-center text-[11px] font-semibold leading-snug ${
+                      isDesignedByMe ? 'text-red-600' : 'text-neutral-700'
+                    }`}
+                  >
+                    {isDesignedByMe
+                      ? 'Journal cover designed and illustrated by Sangheon Jeon'
+                      : 'Journal cover produced by a design service'}
+                  </p>
+                </div>
+              );
+            })}
           </div>
 
           <h2 className="mt-12 text-2xl font-bold tracking-tight text-primary">
