@@ -505,3 +505,28 @@ body {
   background-color: #ffffff;
 }
 
+
+/* Force light theme across the entire website */
+html,
+body {
+  background-color: #ffffff !important;
+  color: #171717;
+  color-scheme: light !important;
+}
+
+body,
+main,
+#__next {
+  background-color: #ffffff !important;
+}
+
+/* Prevent device dark mode from changing the page background */
+@media (prefers-color-scheme: dark) {
+  html,
+  body,
+  main,
+  #__next {
+    background-color: #ffffff !important;
+    color-scheme: light !important;
+  }
+}
