@@ -1,7 +1,6 @@
 import type { Metadata } from 'next';
 import './globals.css';
 import Navigation from '@/components/layout/Navigation';
-import Footer from '@/components/layout/Footer';
 import { ThemeProvider } from '@/components/ui/ThemeProvider';
 import { LocaleProvider } from '@/components/ui/LocaleProvider';
 import { getConfig } from '@/lib/config';
@@ -11,7 +10,8 @@ import type { SiteConfig } from '@/lib/config';
 export async function generateMetadata(): Promise<Metadata> {
   const config = getConfig();
   const runtimeI18n = getRuntimeI18nConfig(config.i18n);
-  const openGraphLocale = runtimeI18n.defaultLocale === 'zh' ? 'zh_CN' : 'en_US';
+  const openGraphLocale =
+    runtimeI18n.defaultLocale === 'zh' ? 'zh_CN' : 'en_US';
 
   return {
     title: {
@@ -19,7 +19,12 @@ export async function generateMetadata(): Promise<Metadata> {
       template: `%s | ${config.site.title}`,
     },
     description: config.site.description,
-    keywords: [config.author.name, 'PhD', 'Research', config.author.institution],
+    keywords: [
+      config.author.name,
+      'PhD',
+      'Research',
+      config.author.institution,
+    ],
     authors: [{ name: config.author.name }],
     creator: config.author.name,
     publisher: config.author.name,
@@ -36,20 +41,36 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-function buildLocaleBootstrapScript(config: ReturnType<typeof getRuntimeI18nConfig>): string {
+function buildLocaleBootstrapScript(
+  config: ReturnType<typeof getRuntimeI18nConfig>
+): string {
   const serializedConfig = JSON.stringify(config).replace(/</g, '\\u003c');
 
   return `
     try {
       const cfg = ${serializedConfig};
       const storageKey = 'locale-storage';
-      const normalize = (value) => typeof value === 'string' ? value.trim().replace('_', '-').toLowerCase() : '';
+
+      const normalize = (value) =>
+        typeof value === 'string'
+          ? value.trim().replace('_', '-').toLowerCase()
+          : '';
+
       const matchLocale = (candidate) => {
         const normalized = normalize(candidate);
+
         if (!normalized) return null;
-        if (cfg.locales.includes(normalized)) return normalized;
+
+        if (cfg.locales.includes(normalized)) {
+          return normalized;
+        }
+
         const language = normalized.split('-')[0];
-        if (cfg.locales.includes(language)) return language;
+
+        if (cfg.locales.includes(language)) {
+          return language;
+        }
+
         return null;
       };
 
@@ -72,6 +93,7 @@ function buildLocaleBootstrapScript(config: ReturnType<typeof getRuntimeI18nConf
       }
 
       const root = document.documentElement;
+
       root.lang = resolved;
       root.setAttribute('data-locale', resolved);
 
@@ -80,8 +102,12 @@ function buildLocaleBootstrapScript(config: ReturnType<typeof getRuntimeI18nConf
       }
     } catch (e) {
       const root = document.documentElement;
+
       root.lang = '${config.defaultLocale}';
-      root.setAttribute('data-locale', '${config.defaultLocale}');
+      root.setAttribute(
+        'data-locale',
+        '${config.defaultLocale}'
+      );
     }
   `;
 }
@@ -89,25 +115,32 @@ function buildLocaleBootstrapScript(config: ReturnType<typeof getRuntimeI18nConf
 function buildLocalizedConfigMaps(
   locales: string[]
 ): {
-  navigationByLocale: Record<string, SiteConfig['navigation']>;
+  navigationByLocale: Record<
+    string,
+    SiteConfig['navigation']
+  >;
   siteTitleByLocale: Record<string, string>;
-  lastUpdatedByLocale: Record<string, string | undefined>;
 } {
-  const navigationByLocale: Record<string, SiteConfig['navigation']> = {};
+  const navigationByLocale: Record<
+    string,
+    SiteConfig['navigation']
+  > = {};
+
   const siteTitleByLocale: Record<string, string> = {};
-  const lastUpdatedByLocale: Record<string, string | undefined> = {};
 
   for (const locale of locales) {
     const localizedConfig = getConfig(locale);
-    navigationByLocale[locale] = localizedConfig.navigation;
-    siteTitleByLocale[locale] = localizedConfig.site.title;
-    lastUpdatedByLocale[locale] = localizedConfig.site.last_updated;
+
+    navigationByLocale[locale] =
+      localizedConfig.navigation;
+
+    siteTitleByLocale[locale] =
+      localizedConfig.site.title;
   }
 
   return {
     navigationByLocale,
     siteTitleByLocale,
-    lastUpdatedByLocale,
   };
 }
 
@@ -117,21 +150,44 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   const config = getConfig();
-  const runtimeI18n = getRuntimeI18nConfig(config.i18n);
-  const targetLocales = runtimeI18n.enabled ? runtimeI18n.locales : [runtimeI18n.defaultLocale];
+
+  const runtimeI18n =
+    getRuntimeI18nConfig(config.i18n);
+
+  const targetLocales = runtimeI18n.enabled
+    ? runtimeI18n.locales
+    : [runtimeI18n.defaultLocale];
 
   const {
     navigationByLocale,
     siteTitleByLocale,
-    lastUpdatedByLocale,
   } = buildLocalizedConfigMaps(targetLocales);
 
   return (
-    <html lang={runtimeI18n.defaultLocale} className="scroll-smooth" suppressHydrationWarning>
+    <html
+      lang={runtimeI18n.defaultLocale}
+      className="scroll-smooth light"
+      data-theme="light"
+      suppressHydrationWarning
+    >
       <head>
-        <link rel="icon" href={config.site.favicon} type="image/svg+xml" />
-        <link rel="dns-prefetch" href="https://jialeliu.com" />
-        <link rel="preconnect" href="https://jialeliu.com" crossOrigin="" />
+        <link
+          rel="icon"
+          href={config.site.favicon}
+          type="image/svg+xml"
+        />
+
+        <link
+          rel="dns-prefetch"
+          href="https://jialeliu.com"
+        />
+
+        <link
+          rel="preconnect"
+          href="https://jialeliu.com"
+          crossOrigin=""
+        />
+
         <link
           rel="preload"
           as="font"
@@ -139,51 +195,75 @@ export default function RootLayout({
           href="https://jialeliu.com/fonts/georgiab.woff2"
           crossOrigin=""
         />
+
+        {/* Force light mode */}
         <script
           dangerouslySetInnerHTML={{
             __html: `
               try {
-                const theme = localStorage.getItem('theme-storage');
-                const parsed = theme ? JSON.parse(theme) : null;
-                const setting = parsed?.state?.theme || 'system';
-                const prefersDark = typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-                const effective = setting === 'dark' ? 'dark' : (setting === 'light' ? 'light' : (prefersDark ? 'dark' : 'light'));
-                var root = document.documentElement;
-                root.classList.add(effective);
-                root.setAttribute('data-theme', effective);
-              } catch (e) {
-                var root = document.documentElement;
+                const root = document.documentElement;
+
+                root.classList.remove('dark');
                 root.classList.add('light');
-                root.setAttribute('data-theme', 'light');
+
+                root.setAttribute(
+                  'data-theme',
+                  'light'
+                );
+
+                localStorage.setItem(
+                  'theme-storage',
+                  JSON.stringify({
+                    state: {
+                      theme: 'light'
+                    }
+                  })
+                );
+              } catch (e) {
+                const root =
+                  document.documentElement;
+
+                root.classList.remove('dark');
+                root.classList.add('light');
+
+                root.setAttribute(
+                  'data-theme',
+                  'light'
+                );
               }
             `,
           }}
         />
+
         <script
           dangerouslySetInnerHTML={{
-            __html: buildLocaleBootstrapScript(runtimeI18n),
+            __html:
+              buildLocaleBootstrapScript(
+                runtimeI18n
+              ),
           }}
         />
       </head>
-      <body className="font-sans antialiased">
+
+      <body className="bg-white font-sans text-neutral-900 antialiased">
         <ThemeProvider>
           <LocaleProvider config={runtimeI18n}>
             <Navigation
               items={config.navigation}
               siteTitle={config.site.title}
-              enableOnePageMode={config.features.enable_one_page_mode}
+              enableOnePageMode={
+                config.features.enable_one_page_mode
+              }
               i18n={runtimeI18n}
               itemsByLocale={navigationByLocale}
-              siteTitleByLocale={siteTitleByLocale}
+              siteTitleByLocale={
+                siteTitleByLocale
+              }
             />
-            <main className="min-h-screen pt-4 lg:pt-6">
+
+            <main className="min-h-screen bg-white pt-4 text-neutral-900 lg:pt-6">
               {children}
             </main>
-            <Footer
-              lastUpdated={config.site.last_updated}
-              lastUpdatedByLocale={lastUpdatedByLocale}
-              defaultLocale={runtimeI18n.defaultLocale}
-            />
           </LocaleProvider>
         </ThemeProvider>
       </body>
