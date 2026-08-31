@@ -66,21 +66,16 @@ export default function ResearchHighlights({
 
               {/* Image area */}
               <div className="relative h-[280px] overflow-hidden sm:h-[360px] lg:col-span-5 lg:h-[520px]">
-                {items.map((item, idx) => (
-                  <Image
-                    key={item.id}
-                    src={item.image}
-                    alt={item.title}
-                    fill
-                    className={`object-cover transition-opacity duration-300 ${
-                      idx === activeIndex
-                        ? 'z-10 opacity-100'
-                        : 'z-0 opacity-0'
-                    }`}
-                    sizes="(max-width: 1024px) 100vw, 42vw"
-                    priority={idx === 0}
-                  />
-                ))}
+<Image
+  key={active.id}
+  src={active.image}
+  alt={active.title}
+  fill
+  priority={activeIndex === 0}
+  loading={activeIndex === 0 ? 'eager' : 'lazy'}
+  className="object-cover object-center"
+  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 100vw, 42vw"
+/>
 
                 {/* Previous */}
                 <button
