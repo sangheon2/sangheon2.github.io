@@ -330,7 +330,7 @@ export default function PublicationsList({
                           */}
                           <source
                             media="(max-width: 767px)"
-                            srcSet={`/papers/${getMobilePreview(
+                            srcSet={`/${getMobilePreview(
                               pub.preview
                             )}`}
                             type="image/webp"
