@@ -22,12 +22,12 @@ interface PublicationsListProps {
 }
 
 /*
- * publication.bib의 preview 이름을 이용해서
- * 모바일용 WebP 파일명을 자동 생성합니다.
+ * publications.bib의 preview 이름을 이용해서
+ * 모바일용 WebP 파일명을 자동 생성
  *
  * 예:
  * micro-supercapacitor.PNG
- *        ↓
+ * ↓
  * micro-supercapacitor-mobile.webp
  */
 const getMobilePreview = (preview: string) => {
@@ -56,8 +56,10 @@ export default function PublicationsList({
   const messages = useMessages();
 
   const [searchQuery, setSearchQuery] = useState('');
-  const [selectedYear, setSelectedYear] = useState<number | 'all'>('all');
-  const [selectedType, setSelectedType] = useState<string | 'all'>('all');
+  const [selectedYear, setSelectedYear] =
+    useState<number | 'all'>('all');
+  const [selectedType, setSelectedType] =
+    useState<string | 'all'>('all');
   const [showFilters, setShowFilters] = useState(false);
 
   const years = useMemo(() => {
@@ -213,7 +215,6 @@ export default function PublicationsList({
         {/* Filter panel */}
         {showFilters && (
           <div className="flex flex-wrap gap-6 rounded-lg border border-neutral-200 bg-neutral-50 p-4 dark:border-neutral-800 dark:bg-neutral-800/50">
-
             {/* Year filter */}
             <div className="space-y-2">
               <label className="flex items-center text-sm font-medium text-neutral-700 dark:text-neutral-300">
@@ -316,18 +317,14 @@ export default function PublicationsList({
               >
                 <div className="flex flex-col gap-6 md:flex-row md:items-stretch">
 
-                  {/* Publication preview image */}
+                  {/* Publication preview */}
                   <div className="w-full flex-shrink-0 md:w-[320px]">
                     <div className="relative h-full min-h-[220px] overflow-hidden rounded-md border border-neutral-200 bg-neutral-100 dark:border-neutral-800 dark:bg-neutral-800">
 
                       {pub.preview ? (
                         <picture className="absolute inset-0 block h-full w-full">
 
-                          {/*
-                            Mobile:
-                            automatically loads
-                            filename-mobile.webp
-                          */}
+                          {/* Mobile: public 루트의 작은 WebP */}
                           <source
                             media="(max-width: 767px)"
                             srcSet={`/${getMobilePreview(
@@ -336,11 +333,7 @@ export default function PublicationsList({
                             type="image/webp"
                           />
 
-                          {/*
-                            PC / tablet:
-                            keeps the original image
-                          */}
-
+                          {/* PC / tablet: 기존 public/papers 원본 */}
                           {/* eslint-disable-next-line @next/next/no-img-element */}
                           <img
                             src={`/papers/${pub.preview}`}
@@ -361,7 +354,7 @@ export default function PublicationsList({
                   {/* Publication text */}
                   <div className="flex flex-1 flex-col justify-center">
 
-                    {/* Publication number */}
+                    {/* Number */}
                     <div className="mb-2 text-sm font-medium text-neutral-500">
                       {filteredPublications.length -
                         index}
@@ -471,7 +464,7 @@ export default function PublicationsList({
                       </p>
                     )}
 
-                    {/* DOI button */}
+                    {/* DOI */}
                     <div className="flex flex-wrap gap-2">
                       {pub.doi && (
                         <a
