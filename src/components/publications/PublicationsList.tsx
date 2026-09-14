@@ -21,6 +21,19 @@ interface PublicationsListProps {
   embedded?: boolean;
 }
 
+/*
+ * publication.bib의 preview 이름을 이용해서
+ * 모바일용 WebP 파일명을 자동 생성합니다.
+ *
+ * 예:
+ * micro-supercapacitor.PNG
+ *        ↓
+ * micro-supercapacitor-mobile.webp
+ */
+const getMobilePreview = (preview: string) => {
+  return preview.replace(/\.[^/.]+$/, '-mobile.webp');
+};
+
 const journalCovers = [
   { src: '/1.png', alt: 'Journal cover 1' },
   { src: '/2.png', alt: 'Journal cover 2' },
@@ -48,12 +61,18 @@ export default function PublicationsList({
   const [showFilters, setShowFilters] = useState(false);
 
   const years = useMemo(() => {
-    const uniqueYears = Array.from(new Set(publications.map((p) => p.year)));
+    const uniqueYears = Array.from(
+      new Set(publications.map((p) => p.year))
+    );
+
     return uniqueYears.sort((a, b) => b - a);
   }, [publications]);
 
   const types = useMemo(() => {
-    const uniqueTypes = Array.from(new Set(publications.map((p) => p.type)));
+    const uniqueTypes = Array.from(
+      new Set(publications.map((p) => p.type))
+    );
+
     return uniqueTypes.sort();
   }, [publications]);
 
@@ -70,17 +89,25 @@ export default function PublicationsList({
         pub.conference?.toLowerCase().includes(q);
 
       const matchesYear =
-        selectedYear === 'all' || pub.year === selectedYear;
+        selectedYear === 'all' ||
+        pub.year === selectedYear;
 
       const matchesType =
-        selectedType === 'all' || pub.type === selectedType;
+        selectedType === 'all' ||
+        pub.type === selectedType;
 
       return matchesSearch && matchesYear && matchesType;
     });
-  }, [publications, searchQuery, selectedYear, selectedType]);
+  }, [
+    publications,
+    searchQuery,
+    selectedYear,
+    selectedType,
+  ]);
 
   return (
     <div>
+      {/* Page title */}
       <div className="mb-8">
         <h1
           className={`${
@@ -101,14 +128,19 @@ export default function PublicationsList({
         )}
       </div>
 
+      {/* Journal covers */}
       {!embedded && (
         <section className="mb-14">
           <div className="mx-auto grid max-w-5xl grid-cols-2 gap-6 sm:grid-cols-3 lg:grid-cols-3">
             {journalCovers.map((cover, index) => {
-              const isDesignedByMe = designedCoverIndexes.includes(index);
+              const isDesignedByMe =
+                designedCoverIndexes.includes(index);
 
               return (
-                <div key={cover.src} className="space-y-2">
+                <div
+                  key={cover.src}
+                  className="space-y-2"
+                >
                   <div className="relative aspect-[3/4] overflow-hidden bg-white">
                     <Image
                       src={cover.src}
@@ -122,7 +154,9 @@ export default function PublicationsList({
 
                   <p
                     className={`text-center text-[11px] font-semibold leading-snug ${
-                      isDesignedByMe ? 'text-red-600' : 'text-neutral-700'
+                      isDesignedByMe
+                        ? 'text-red-600'
+                        : 'text-neutral-700'
                     }`}
                   >
                     {isDesignedByMe
@@ -140,6 +174,7 @@ export default function PublicationsList({
         </section>
       )}
 
+      {/* Search and filters */}
       <div className="mb-8 space-y-4">
         <div className="flex flex-col gap-4 sm:flex-row">
           <div className="relative flex-grow">
@@ -147,15 +182,21 @@ export default function PublicationsList({
 
             <input
               type="text"
-              placeholder={messages.publications.searchPlaceholder}
+              placeholder={
+                messages.publications.searchPlaceholder
+              }
               value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
+              onChange={(e) =>
+                setSearchQuery(e.target.value)
+              }
               className="w-full rounded-lg border border-neutral-200 bg-white py-2 pl-10 pr-4 transition-all duration-200 focus:border-transparent focus:ring-2 focus:ring-accent dark:border-neutral-800 dark:bg-neutral-900"
             />
           </div>
 
           <button
-            onClick={() => setShowFilters((v) => !v)}
+            onClick={() =>
+              setShowFilters((v) => !v)
+            }
             className={cn(
               'flex items-center justify-center rounded-lg border px-4 py-2 transition-all duration-200',
               showFilters
@@ -164,21 +205,28 @@ export default function PublicationsList({
             )}
           >
             <FunnelIcon className="mr-2 h-5 w-5" />
+
             {messages.publications.filters}
           </button>
         </div>
 
+        {/* Filter panel */}
         {showFilters && (
           <div className="flex flex-wrap gap-6 rounded-lg border border-neutral-200 bg-neutral-50 p-4 dark:border-neutral-800 dark:bg-neutral-800/50">
+
+            {/* Year filter */}
             <div className="space-y-2">
               <label className="flex items-center text-sm font-medium text-neutral-700 dark:text-neutral-300">
                 <CalendarIcon className="mr-1 h-4 w-4" />
+
                 {messages.publications.year}
               </label>
 
               <div className="flex flex-wrap gap-2">
                 <button
-                  onClick={() => setSelectedYear('all')}
+                  onClick={() =>
+                    setSelectedYear('all')
+                  }
                   className={cn(
                     'rounded-full px-3 py-1 text-xs transition-colors',
                     selectedYear === 'all'
@@ -192,7 +240,9 @@ export default function PublicationsList({
                 {years.map((year) => (
                   <button
                     key={year}
-                    onClick={() => setSelectedYear(year)}
+                    onClick={() =>
+                      setSelectedYear(year)
+                    }
                     className={cn(
                       'rounded-full px-3 py-1 text-xs transition-colors',
                       selectedYear === year
@@ -206,15 +256,19 @@ export default function PublicationsList({
               </div>
             </div>
 
+            {/* Publication type filter */}
             <div className="space-y-2">
               <label className="flex items-center text-sm font-medium text-neutral-700 dark:text-neutral-300">
                 <BookOpenIcon className="mr-1 h-4 w-4" />
+
                 {messages.publications.type}
               </label>
 
               <div className="flex flex-wrap gap-2">
                 <button
-                  onClick={() => setSelectedType('all')}
+                  onClick={() =>
+                    setSelectedType('all')
+                  }
                   className={cn(
                     'rounded-full px-3 py-1 text-xs transition-colors',
                     selectedType === 'all'
@@ -228,7 +282,9 @@ export default function PublicationsList({
                 {types.map((type) => (
                   <button
                     key={type}
-                    onClick={() => setSelectedType(type)}
+                    onClick={() =>
+                      setSelectedType(type)
+                    }
                     className={cn(
                       'rounded-full px-3 py-1 text-xs capitalize transition-colors',
                       selectedType === type
@@ -245,133 +301,194 @@ export default function PublicationsList({
         )}
       </div>
 
+      {/* Publication list */}
       <div className="space-y-6">
         {filteredPublications.length === 0 ? (
           <div className="py-12 text-center text-neutral-500">
             {messages.publications.noResults}
           </div>
         ) : (
-          filteredPublications.map((pub, index) => (
-            <div
-              key={pub.id}
-              className="rounded-xl border border-neutral-200 bg-white p-5 shadow-sm transition-all duration-200 hover:shadow-md dark:border-neutral-800 dark:bg-neutral-900"
-            >
-              <div className="flex flex-col gap-6 md:flex-row md:items-stretch">
-                <div className="w-full flex-shrink-0 md:w-[320px]">
-                  <div className="relative h-full min-h-[220px] overflow-hidden rounded-md border border-neutral-200 bg-neutral-100 dark:border-neutral-800 dark:bg-neutral-800">
-                    {pub.preview ? (
-                      <Image
-                        src={`/papers/${pub.preview}`}
-                        alt={pub.title}
-                        fill
-                        className="object-cover object-center"
-                        sizes="(max-width: 768px) 100vw, 320px"
-                      />
-                    ) : (
-                      <div className="flex h-full w-full items-center justify-center text-xs text-neutral-400">
-                        No image
-                      </div>
-                    )}
+          filteredPublications.map(
+            (pub, index) => (
+              <div
+                key={pub.id}
+                className="rounded-xl border border-neutral-200 bg-white p-5 shadow-sm transition-all duration-200 hover:shadow-md dark:border-neutral-800 dark:bg-neutral-900"
+              >
+                <div className="flex flex-col gap-6 md:flex-row md:items-stretch">
+
+                  {/* Publication preview image */}
+                  <div className="w-full flex-shrink-0 md:w-[320px]">
+                    <div className="relative h-full min-h-[220px] overflow-hidden rounded-md border border-neutral-200 bg-neutral-100 dark:border-neutral-800 dark:bg-neutral-800">
+
+                      {pub.preview ? (
+                        <picture className="absolute inset-0 block h-full w-full">
+
+                          {/*
+                            Mobile:
+                            automatically loads
+                            filename-mobile.webp
+                          */}
+                          <source
+                            media="(max-width: 767px)"
+                            srcSet={`/papers/${getMobilePreview(
+                              pub.preview
+                            )}`}
+                            type="image/webp"
+                          />
+
+                          {/*
+                            PC / tablet:
+                            keeps the original image
+                          */}
+
+                          {/* eslint-disable-next-line @next/next/no-img-element */}
+                          <img
+                            src={`/papers/${pub.preview}`}
+                            alt={pub.title}
+                            loading="lazy"
+                            decoding="async"
+                            className="h-full w-full object-cover object-center"
+                          />
+                        </picture>
+                      ) : (
+                        <div className="flex h-full w-full items-center justify-center text-xs text-neutral-400">
+                          No image
+                        </div>
+                      )}
+                    </div>
                   </div>
-                </div>
 
-                <div className="flex flex-1 flex-col justify-center">
-                  <div className="mb-2 text-sm font-medium text-neutral-500">
-                    {filteredPublications.length - index}.
-                  </div>
+                  {/* Publication text */}
+                  <div className="flex flex-1 flex-col justify-center">
 
-                  <h3
-                    className={`${
-                      embedded ? 'text-lg' : 'text-xl'
-                    } mb-2 font-semibold leading-tight text-primary`}
-                  >
-                    {pub.title}
-                  </h3>
+                    {/* Publication number */}
+                    <div className="mb-2 text-sm font-medium text-neutral-500">
+                      {filteredPublications.length -
+                        index}
+                      .
+                    </div>
 
-                  <p
-                    className={`${
-                      embedded ? 'text-sm' : 'text-base'
-                    } mb-2 text-neutral-600 dark:text-neutral-400`}
-                  >
-                    {pub.authors.map((author, idx) => (
-                      <span key={idx}>
-                        <span
-                          className={`${author.isHighlighted ? 'font-semibold text-accent' : ''} ${
-                            author.isCoAuthor
-                              ? `underline underline-offset-4 ${
+                    {/* Title */}
+                    <h3
+                      className={`${
+                        embedded
+                          ? 'text-lg'
+                          : 'text-xl'
+                      } mb-2 font-semibold leading-tight text-primary`}
+                    >
+                      {pub.title}
+                    </h3>
+
+                    {/* Authors */}
+                    <p
+                      className={`${
+                        embedded
+                          ? 'text-sm'
+                          : 'text-base'
+                      } mb-2 text-neutral-600 dark:text-neutral-400`}
+                    >
+                      {pub.authors.map(
+                        (author, idx) => (
+                          <span key={idx}>
+                            <span
+                              className={`${
+                                author.isHighlighted
+                                  ? 'font-semibold text-accent'
+                                  : ''
+                              } ${
+                                author.isCoAuthor
+                                  ? `underline underline-offset-4 ${
+                                      author.isHighlighted
+                                        ? 'decoration-accent'
+                                        : 'decoration-neutral-400'
+                                    }`
+                                  : ''
+                              }`}
+                            >
+                              {author.name}
+                            </span>
+
+                            {author.isCorresponding && (
+                              <sup
+                                className={`ml-0 ${
                                   author.isHighlighted
-                                    ? 'decoration-accent'
-                                    : 'decoration-neutral-400'
-                                }`
-                              : ''
-                          }`}
-                        >
-                          {author.name}
-                        </span>
+                                    ? 'text-accent'
+                                    : 'text-neutral-600 dark:text-neutral-400'
+                                }`}
+                              >
+                                †
+                              </sup>
+                            )}
 
-                        {author.isCorresponding && (
-                          <sup
-                            className={`ml-0 ${
-                              author.isHighlighted
-                                ? 'text-accent'
-                                : 'text-neutral-600 dark:text-neutral-400'
-                            }`}
-                          >
-                            †
-                          </sup>
-                        )}
+                            {idx <
+                              pub.authors.length -
+                                1 &&
+                              ', '}
+                          </span>
+                        )
+                      )}
+                    </p>
 
-                        {idx < pub.authors.length - 1 && ', '}
+                    {/* Journal information */}
+                    <p className="mb-3 text-sm font-medium text-neutral-800 dark:text-neutral-300">
+                      <span className="font-semibold italic">
+                        {pub.journal ||
+                          pub.conference}
                       </span>
-                    ))}
-                  </p>
 
-                  <p className="mb-3 text-sm font-medium text-neutral-800 dark:text-neutral-300">
-                    <span className="font-semibold italic">
-                      {pub.journal || pub.conference}
-                    </span>
+                      {pub.volume &&
+                        `, ${pub.volume}`}
 
-                    {pub.volume && `, ${pub.volume}`}
-                    {pub.pages && `, ${pub.pages}`}
-                    {pub.year && ` (${pub.year})`}
+                      {pub.pages &&
+                        `, ${pub.pages}`}
 
-                    {(pub.url || pub.doi) && (
-                      <>
-                        {' '}
+                      {pub.year &&
+                        ` (${pub.year})`}
+
+                      {(pub.url || pub.doi) && (
+                        <>
+                          {' '}
+
+                          <a
+                            href={
+                              pub.url ||
+                              `https://doi.org/${pub.doi}`
+                            }
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-accent hover:underline"
+                          >
+                            [link]
+                          </a>
+                        </>
+                      )}
+                    </p>
+
+                    {/* Description */}
+                    {pub.description && (
+                      <p className="mb-3 text-sm leading-relaxed text-neutral-600 dark:text-neutral-400">
+                        {pub.description}
+                      </p>
+                    )}
+
+                    {/* DOI button */}
+                    <div className="flex flex-wrap gap-2">
+                      {pub.doi && (
                         <a
-                          href={pub.url || `https://doi.org/${pub.doi}`}
+                          href={`https://doi.org/${pub.doi}`}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-accent hover:underline"
+                          className="rounded-full bg-neutral-100 px-3 py-1 text-xs text-neutral-700 transition-colors hover:bg-neutral-200 dark:bg-neutral-800 dark:text-neutral-300 dark:hover:bg-neutral-700"
                         >
-                          [link]
+                          DOI
                         </a>
-                      </>
-                    )}
-                  </p>
-
-                  {pub.description && (
-                    <p className="mb-3 text-sm leading-relaxed text-neutral-600 dark:text-neutral-400">
-                      {pub.description}
-                    </p>
-                  )}
-
-                  <div className="flex flex-wrap gap-2">
-                    {pub.doi && (
-                      <a
-                        href={`https://doi.org/${pub.doi}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="rounded-full bg-neutral-100 px-3 py-1 text-xs text-neutral-700 transition-colors hover:bg-neutral-200 dark:bg-neutral-800 dark:text-neutral-300 dark:hover:bg-neutral-700"
-                      >
-                        DOI
-                      </a>
-                    )}
+                      )}
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          ))
+            )
+          )
         )}
       </div>
     </div>
