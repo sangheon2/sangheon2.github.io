@@ -702,4 +702,36 @@ export default function PublicationsList({
                     )}
 
                     {/* DOI */}
-                   
+                    <div className="flex flex-wrap gap-2">
+
+                      {pub.doi && (
+
+                        <a
+                          href={`https://doi.org/${pub.doi}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="rounded-full bg-neutral-100 px-3 py-1 text-xs text-neutral-700 transition-colors hover:bg-neutral-200 dark:bg-neutral-800 dark:text-neutral-300 dark:hover:bg-neutral-700"
+                        >
+                          DOI
+                        </a>
+
+                      )}
+
+                    </div>
+
+                  </div>
+
+                </div>
+
+              </div>
+
+            )
+          )
+
+        )}
+
+      </div>
+
+    </div>
+  );
+}
