@@ -1,71 +1,103 @@
-name: Deploy Next.js site to Pages
+import fs from 'node:fs/promises';
+import path from 'node:path';
+import sharp from 'sharp';
 
-on:
-  push:
-    branches: ["main"]
+const publicDir = path.join(process.cwd(), 'public');
+const outputDir = path.join(publicDir, 'mobile');
 
-  workflow_dispatch:
+const sourceFiles = [
+  'SUPER.png',
+  'tes 2.png',
+  'POCT.png',
+  'Graphene.png',
+  'SERS.png',
+  'go w.png',
+  'MICRO.png',
+  'SE.png',
+  'IMP.png',
+  'TENG.png',
+  'GNR.png',
+  'TENG_W.png',
 
-permissions:
-  contents: read
-  pages: write
-  id-token: write
+  '1.png',
+  '2.png',
+  '3.jpg',
+  '4.png',
+  '5.png',
+  '6.png',
+  '7.png',
+  '8.png',
+  '9.png',
+];
 
-concurrency:
-  group: "pages"
-  cancel-in-progress: false
+function makeOutputName(filename) {
+  const ext = path.extname(filename);
 
-jobs:
-  build:
-    runs-on: ubuntu-latest
+  const base = path
+    .basename(filename, ext)
+    .replace(/\s+/g, '-');
 
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+  return `${base}.webp`;
+}
 
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: "22"
-          cache: npm
+await fs.rm(outputDir, {
+  recursive: true,
+  force: true,
+});
 
-      - name: Setup Pages
-        uses: actions/configure-pages@v5
-        with:
-          static_site_generator: next
+await fs.mkdir(outputDir, {
+  recursive: true,
+});
 
-      - name: Restore cache
-        uses: actions/cache@v4
-        with:
-          path: |
-            .next/cache
-          key: ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('**.[jt]s', '**.[jt]sx') }}
-          restore-keys: |
-            ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-
+console.log('Generating mobile images...');
 
-      - name: Install dependencies
-        run: npm ci
+for (const filename of sourceFiles) {
+  const inputPath = path.join(
+    publicDir,
+    filename
+  );
 
-      - name: Install Sharp
-        run: npm install --no-save --package-lock=false sharp@0.34.2
+  const outputName =
+    makeOutputName(filename);
 
-      - name: Generate mobile images and build
-        run: npm run build
+  const outputPath = path.join(
+    outputDir,
+    outputName
+  );
 
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: ./out
+  try {
+    await fs.access(inputPath);
+  } catch {
+    console.warn(
+      `Image not found: ${filename}`
+    );
 
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+    continue;
+  }
 
-    runs-on: ubuntu-latest
-    needs: build
+  await sharp(inputPath)
+    .rotate()
+    .resize({
+      width: 720,
+      withoutEnlargement: true,
+      fit: 'inside',
+    })
+    .webp({
+      quality: 48,
+      effort: 6,
+    })
+    .toFile(outputPath);
 
-    steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+  const stats =
+    await fs.stat(outputPath);
+
+  console.log(
+    `${filename} -> mobile/${outputName} (${Math.round(
+      stats.size / 1024
+    )} KB)`
+  );
+}
+
+console.log(
+  'Mobile images generated successfully.'
+);
