@@ -13,9 +13,9 @@ research_interests = [
 ]
 
 [[sections]]
-id = "Experience"
+id = "Research experince"
 type = "markdown"
-title = "Experience"
+title = "Research experince"
 source = "Research experince.md"
 
 [[sections]]
