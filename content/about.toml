@@ -1,4 +1,4 @@
-title = "About"
+etitle = "About"
 type = "about"
 
 
@@ -19,10 +19,10 @@ title = "Research Expertise"
 source = "Research Expertise.md"
 
 [[sections]]
-id = "Research experince"
+id = "Research Experince"
 type = "markdown"
-title = "Research experince"
-source = "Research experince.md"
+title = "Research Experince"
+source = "Research Experince.md"
 
 [[sections]]
 id = "Education"
