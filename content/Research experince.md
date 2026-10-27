@@ -25,9 +25,9 @@ Conducted research on functional nanomaterials and solution-based assembly for o
 
 ### Pusan National University
 
-Graduate Researcher / Ph.D. Researcher
+**Graduate Researcher / Ph.D. Researcher**
 Department of Cogno-Mechatronics Engineering
-Advisor: Prof. Suck Won Hong
-Mar. 2016 – Aug. 2026 | Busan, South Korea
+✓ Advisor: Prof. Suck Won Hong
+**Mar. 2016 – Aug. 2026 | Busan, South Korea**
 
 Conducted research on flexible and wearable electronics, electrochemical biosensors, two-dimensional materials, energy-storage devices, and biointegrated electronic systems.
