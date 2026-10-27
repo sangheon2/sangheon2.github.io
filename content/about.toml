@@ -13,6 +13,12 @@ research_interests = [
 ]
 
 [[sections]]
+id = "Research Expertise"
+type = "markdown"
+title = "Research Expertise"
+source = "Research Expertise.md"
+
+[[sections]]
 id = "Research experince"
 type = "markdown"
 title = "Research experince"
