@@ -54,14 +54,30 @@ function normalizeLocale(locale: string): string {
   return locale.trim().replace('_', '-').toLowerCase();
 }
 
-function readConfigFromPath(configPath: string): Partial<SiteConfig> | null {
+function readConfigFromPath(
+  configPath: string
+): Partial<SiteConfig> | null {
   try {
-    const fileContent = fs.readFileSync(configPath, 'utf-8');
-    return parse(fileContent) as unknown as Partial<SiteConfig>;
+    const fileContent = fs.readFileSync(
+      configPath,
+      'utf-8'
+    );
+
+    const parsed = parse(fileContent);
+
+    // TOML 데이터를 일반 JavaScript 객체로 변환
+    const plainConfig = JSON.parse(
+      JSON.stringify(parsed)
+    );
+
+    return plainConfig as Partial<SiteConfig>;
   } catch (error) {
-    if ((error as NodeJS.ErrnoException).code === 'ENOENT') {
+    if (
+      (error as NodeJS.ErrnoException).code === 'ENOENT'
+    ) {
       return null;
     }
+
     throw error;
   }
 }
