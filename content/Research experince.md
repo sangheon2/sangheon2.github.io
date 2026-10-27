@@ -23,7 +23,7 @@ School of Materials Science and Engineering
 
 Conducted research on functional nanomaterials and solution-based assembly for optoelectronic and sensing applications.
 
-Pusan National University
+### Pusan National University
 
 Graduate Researcher / Ph.D. Researcher
 Department of Cogno-Mechatronics Engineering
