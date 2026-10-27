@@ -1,50 +1,88 @@
 import type { Metadata } from 'next';
 import './globals.css';
+
 import Navigation from '@/components/layout/Navigation';
 import { ThemeProvider } from '@/components/ui/ThemeProvider';
 import { LocaleProvider } from '@/components/ui/LocaleProvider';
+
 import { getConfig } from '@/lib/config';
 import { getRuntimeI18nConfig } from '@/lib/i18n/config';
+
 import type { SiteConfig } from '@/lib/config';
+
+function toPlainObject<T>(value: T): T {
+  return JSON.parse(
+    JSON.stringify(value)
+  ) as T;
+}
 
 export async function generateMetadata(): Promise<Metadata> {
   const config = getConfig();
-  const runtimeI18n = getRuntimeI18nConfig(config.i18n);
+
+  const runtimeI18n =
+    getRuntimeI18nConfig(
+      config.i18n
+    );
+
   const openGraphLocale =
-    runtimeI18n.defaultLocale === 'zh' ? 'zh_CN' : 'en_US';
+    runtimeI18n.defaultLocale === 'zh'
+      ? 'zh_CN'
+      : 'en_US';
 
   return {
     title: {
       default: config.site.title,
       template: `%s | ${config.site.title}`,
     },
-    description: config.site.description,
+
+    description:
+      config.site.description,
+
     keywords: [
       config.author.name,
       'PhD',
       'Research',
       config.author.institution,
     ],
-    authors: [{ name: config.author.name }],
-    creator: config.author.name,
-    publisher: config.author.name,
+
+    authors: [
+      {
+        name: config.author.name,
+      },
+    ],
+
+    creator:
+      config.author.name,
+
+    publisher:
+      config.author.name,
+
     icons: {
       icon: config.site.favicon,
     },
+
     openGraph: {
       type: 'website',
       locale: openGraphLocale,
       title: config.site.title,
-      description: config.site.description,
-      siteName: `${config.author.name}'s Academic Website`,
+      description:
+        config.site.description,
+      siteName:
+        `${config.author.name}'s Academic Website`,
     },
   };
 }
 
 function buildLocaleBootstrapScript(
-  config: ReturnType<typeof getRuntimeI18nConfig>
+  config: ReturnType<
+    typeof getRuntimeI18nConfig
+  >
 ): string {
-  const serializedConfig = JSON.stringify(config).replace(/</g, '\\u003c');
+  const serializedConfig =
+    JSON.stringify(config).replace(
+      /</g,
+      '\\u003c'
+    );
 
   return `
     try {
@@ -53,21 +91,36 @@ function buildLocaleBootstrapScript(
 
       const normalize = (value) =>
         typeof value === 'string'
-          ? value.trim().replace('_', '-').toLowerCase()
+          ? value
+              .trim()
+              .replace('_', '-')
+              .toLowerCase()
           : '';
 
       const matchLocale = (candidate) => {
-        const normalized = normalize(candidate);
+        const normalized =
+          normalize(candidate);
 
-        if (!normalized) return null;
+        if (!normalized) {
+          return null;
+        }
 
-        if (cfg.locales.includes(normalized)) {
+        if (
+          cfg.locales.includes(
+            normalized
+          )
+        ) {
           return normalized;
         }
 
-        const language = normalized.split('-')[0];
+        const language =
+          normalized.split('-')[0];
 
-        if (cfg.locales.includes(language)) {
+        if (
+          cfg.locales.includes(
+            language
+          )
+        ) {
           return language;
         }
 
@@ -77,33 +130,56 @@ function buildLocaleBootstrapScript(
       let resolved = null;
 
       if (cfg.persist) {
-        resolved = matchLocale(localStorage.getItem(storageKey));
+        resolved =
+          matchLocale(
+            localStorage.getItem(
+              storageKey
+            )
+          );
       }
 
       if (!resolved) {
-        if (cfg.mode === 'fixed') {
-          resolved = cfg.fixedLocale;
+        if (
+          cfg.mode === 'fixed'
+        ) {
+          resolved =
+            cfg.fixedLocale;
         } else {
-          resolved = matchLocale(navigator.language);
+          resolved =
+            matchLocale(
+              navigator.language
+            );
         }
       }
 
       if (!resolved) {
-        resolved = cfg.defaultLocale;
+        resolved =
+          cfg.defaultLocale;
       }
 
-      const root = document.documentElement;
+      const root =
+        document.documentElement;
 
       root.lang = resolved;
-      root.setAttribute('data-locale', resolved);
+
+      root.setAttribute(
+        'data-locale',
+        resolved
+      );
 
       if (cfg.persist) {
-        localStorage.setItem(storageKey, resolved);
+        localStorage.setItem(
+          storageKey,
+          resolved
+        );
       }
     } catch (e) {
-      const root = document.documentElement;
+      const root =
+        document.documentElement;
 
-      root.lang = '${config.defaultLocale}';
+      root.lang =
+        '${config.defaultLocale}';
+
       root.setAttribute(
         'data-locale',
         '${config.defaultLocale}'
@@ -119,20 +195,30 @@ function buildLocalizedConfigMaps(
     string,
     SiteConfig['navigation']
   >;
-  siteTitleByLocale: Record<string, string>;
+
+  siteTitleByLocale: Record<
+    string,
+    string
+  >;
 } {
   const navigationByLocale: Record<
     string,
     SiteConfig['navigation']
   > = {};
 
-  const siteTitleByLocale: Record<string, string> = {};
+  const siteTitleByLocale: Record<
+    string,
+    string
+  > = {};
 
   for (const locale of locales) {
-    const localizedConfig = getConfig(locale);
+    const localizedConfig =
+      getConfig(locale);
 
     navigationByLocale[locale] =
-      localizedConfig.navigation;
+      toPlainObject(
+        localizedConfig.navigation
+      );
 
     siteTitleByLocale[locale] =
       localizedConfig.site.title;
@@ -151,21 +237,43 @@ export default function RootLayout({
 }>) {
   const config = getConfig();
 
+  /*
+   * smol-toml에서 읽어온 객체를
+   * Client Component에 전달 가능한
+   * 일반 JavaScript 객체로 변환.
+   */
   const runtimeI18n =
-    getRuntimeI18nConfig(config.i18n);
+    toPlainObject(
+      getRuntimeI18nConfig(
+        config.i18n
+      )
+    );
 
-  const targetLocales = runtimeI18n.enabled
-    ? runtimeI18n.locales
-    : [runtimeI18n.defaultLocale];
+  const navigationItems =
+    toPlainObject(
+      config.navigation
+    );
+
+  const targetLocales =
+    runtimeI18n.enabled
+      ? runtimeI18n.locales
+      : [
+          runtimeI18n.defaultLocale,
+        ];
 
   const {
     navigationByLocale,
     siteTitleByLocale,
-  } = buildLocalizedConfigMaps(targetLocales);
+  } =
+    buildLocalizedConfigMaps(
+      targetLocales
+    );
 
   return (
     <html
-      lang={runtimeI18n.defaultLocale}
+      lang={
+        runtimeI18n.defaultLocale
+      }
       className="scroll-smooth light"
       data-theme="light"
       suppressHydrationWarning
@@ -173,7 +281,9 @@ export default function RootLayout({
       <head>
         <link
           rel="icon"
-          href={config.site.favicon}
+          href={
+            config.site.favicon
+          }
           type="image/svg+xml"
         />
 
@@ -201,10 +311,16 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{
             __html: `
               try {
-                const root = document.documentElement;
+                const root =
+                  document.documentElement;
 
-                root.classList.remove('dark');
-                root.classList.add('light');
+                root.classList.remove(
+                  'dark'
+                );
+
+                root.classList.add(
+                  'light'
+                );
 
                 root.setAttribute(
                   'data-theme',
@@ -223,8 +339,13 @@ export default function RootLayout({
                 const root =
                   document.documentElement;
 
-                root.classList.remove('dark');
-                root.classList.add('light');
+                root.classList.remove(
+                  'dark'
+                );
+
+                root.classList.add(
+                  'light'
+                );
 
                 root.setAttribute(
                   'data-theme',
@@ -246,16 +367,32 @@ export default function RootLayout({
       </head>
 
       <body className="bg-white font-sans text-neutral-900 antialiased">
+
         <ThemeProvider>
-          <LocaleProvider config={runtimeI18n}>
+
+          <LocaleProvider
+            config={
+              runtimeI18n
+            }
+          >
+
             <Navigation
-              items={config.navigation}
-              siteTitle={config.site.title}
-              enableOnePageMode={
-                config.features.enable_one_page_mode
+              items={
+                navigationItems
               }
-              i18n={runtimeI18n}
-              itemsByLocale={navigationByLocale}
+              siteTitle={
+                config.site.title
+              }
+              enableOnePageMode={
+                config.features
+                  .enable_one_page_mode
+              }
+              i18n={
+                runtimeI18n
+              }
+              itemsByLocale={
+                navigationByLocale
+              }
               siteTitleByLocale={
                 siteTitleByLocale
               }
@@ -264,8 +401,11 @@ export default function RootLayout({
             <main className="min-h-screen bg-white pt-4 text-neutral-900 lg:pt-6">
               {children}
             </main>
+
           </LocaleProvider>
+
         </ThemeProvider>
+
       </body>
     </html>
   );
