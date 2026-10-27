@@ -1,6 +1,7 @@
 ### California Institute of Technology (Caltech)
 **Visiting Student Researcher**  
 Medical Engineering, Division of Engineering and Applied Science  
+✓ Host: Prof. Wei Gao
 **Sep. 2025 – Aug. 2026 | Pasadena, California, USA**
 
 Conducted interdisciplinary research on wearable and minimally invasive biosensors, hydrogel-based devices, electrochemical sensing, and microfabrication.
@@ -8,6 +9,7 @@ Conducted interdisciplinary research on wearable and minimally invasive biosenso
 ### Georgia Institute of Technology
 **Visiting Student Researcher**  
 School of Materials Science and Engineering  
+✓ Host: Prof. Zhiqun Lin
 **[Jan. - Feb. 2018/2019] | Atlanta, Georgia, USA**
 
 Conducted research on functional nanomaterials and solution-based assembly for optoelectronic and sensing applications.
