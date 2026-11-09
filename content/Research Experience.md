@@ -8,7 +8,7 @@
     <td valign="top">
       <strong>California Institute of Technology (Caltech)</strong>, Prof. Wei Gao<br>
       <sub>Medical Engineering, Division of Engineering and Applied Science</sub><br>
-      <strong>Visiting Student Researcher</strong><br>
+        <sub><strong>Visiting Student Researcher</strong><br>
       <sub>Sep. 2025 – Aug. 2026 | Pasadena, California, USA</sub><br><br>
       Conducted interdisciplinary research on wearable and minimally invasive biosensors, hydrogel-based devices, electrochemical sensing, and microfabrication.
     </td>
@@ -25,7 +25,7 @@
     <td valign="top">
       <strong>Georgia Institute of Technology</strong>, Prof. Zhiqun Lin<br>
       <sub>School of Materials Science and Engineering</sub><br>
-      <strong>Visiting Student Researcher</strong><br>
+        <sub><strong>Visiting Student Researcher</strong><br>
       <sub>Jan.–Feb. 2018 | Atlanta, Georgia, USA</sub><br><br>
       Conducted research on functional nanomaterials and solution-based assembly for optoelectronic and sensing applications.
     </td>
@@ -42,7 +42,7 @@
     <td valign="top">
       <strong>Pusan National University</strong>, Prof. Suck Won Hong<br>
       <sub>Department of Cogno-Mechatronics Engineering</sub><br>
-      <strong>Graduate Researcher / Ph.D. Researcher</strong><br>
+        <sub><strong>Graduate Researcher / Ph.D. Researcher</strong><br>
       <sub>Mar. 2016 – Aug. 2026 | Busan, South Korea</sub><br><br>
       Conducted research on flexible and wearable electronics, electrochemical biosensors, two-dimensional materials, energy-storage devices, energy-storage devices, and biointegrated electronic systems.
     </td>
