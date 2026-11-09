@@ -1,20 +1,20 @@
  
  **Visiting Student Researcher**  
-California Institute of Technology (Caltech), Prof. Wei Gao
+California Institute of Technology (Caltech), Prof. Wei Gao;
 Medical Engineering, Division of Engineering and Applied Science  
 **Sep. 2025 – Aug. 2026 | Pasadena, California, USA**
 
 Conducted interdisciplinary research on wearable and minimally invasive biosensors, hydrogel-based devices, electrochemical sensing, and microfabrication.
 
 **Visiting Researcher**  
-Georgia Institute of Technology, Prof.Zhiqun Lin
+Georgia Institute of Technology, Prof.Zhiqun Lin;
 School of Materials Science and Engineering  
 **Jan.-Feb 2018/2019| Atlanta, Georgia, USA**
 
 Conducted research on functional nanomaterials and solution-based assembly for optoelectronic and sensing applications.
 
 **Graduate Researcher / Ph.D. Researcher**  
-Pusan National University, Prof. Suck Won Hong
+Pusan National University, Prof. Suck Won Hong;
 Department of Cogno-Mechatronics Engineering  
 **Mar. 2016 – Aug. 2026 | Busan, South Korea**
 
